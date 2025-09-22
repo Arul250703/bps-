@@ -1,0 +1,100 @@
+/* Layout halaman */
+.coverkerangka-page {
+  background: #f7f9fc; /* lebih lembut daripada putih */
+  min-height: 100vh;
+  padding: 40px 60px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* Header */
+.coverkerangka-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.coverkerangka-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a4db0;
+  margin: 0;
+}
+
+.coverkerangka-header p {
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+/* Content Section */
+.coverkerangka-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.cover-section,
+.kerangka-section {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cover-section:hover,
+.kerangka-section:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.cover-section h3,
+.kerangka-section h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a4db0;
+  margin-bottom: 15px;
+}
+
+.cover-section p,
+.kerangka-section li {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.7;
+}
+
+.kerangka-section ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.kerangka-section li {
+  margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .coverkerangka-page {
+    padding: 30px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .coverkerangka-page {
+    padding: 20px 25px;
+  }
+
+  .coverkerangka-header h2 {
+    font-size: 28px;
+  }
+
+  .coverkerangka-header p {
+    font-size: 15px;
+  }
+}
