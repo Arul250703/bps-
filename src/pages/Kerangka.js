@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../styles/KelolaData.css";
+import "../styles/Kerangka.css";
 
-export default function KelolaData() {
+export default function Kerangka() {
   const [data, setData] = useState([
     { id: 1, kategori: "Paket Wisata Bandung", harga: "Rp 2.500.000", status: "Aktif" },
     { id: 2, kategori: "Paket Wisata Bali", harga: "Rp 4.200.000", status: "Aktif" },

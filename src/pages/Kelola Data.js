@@ -1,9 +1,9 @@
 import React from "react";
-import "../styles/Tentang.css";
+import "../styles/Kelola Data.css";
 
-export default function Tentang() {
+export default function KelolaData() {
   return (
-    <div className="tentang-page">
+    <div className="kelola-data-page">
       {/* Header */}
       <div className="tentang-header">
         <h2>Tentang Aplikasi</h2>

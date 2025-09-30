@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../styles/KelolaPengguna.css";
+import { FaTrash, FaEdit, FaSearch } from "react-icons/fa";
 
 export default function KelolaPengguna() {
   const [users, setUsers] = useState([
-    { id: 1, name: "Admin Utama", email: "admin@gmail.com", role: "Admin" },
-    { id: 2, name: "Petugas 1", email: "petugas1@gmail.com", role: "Petugas" },
-    { id: 3, name: "Petugas 2", email: "petugas2@gmail.com", role: "Petugas" },
+    { id: 1, name: "Admin Utama", username: "admin", password: "******", role: "Admin" },
+    { id: 2, name: "Petugas 1", username: "petugas1", password: "******", role: "Petugas" },
+    { id: 3, name: "Petugas 2", username: "petugas2", password: "******", role: "Petugas" },
   ]);
 
   const handleDelete = (id) => {
@@ -16,18 +17,34 @@ export default function KelolaPengguna() {
 
   return (
     <div className="kelola-page">
+      {/* Header */}
       <div className="kelola-header">
         <h2>Kelola Pengguna</h2>
-        <p>Manajemen akun admin dan petugas</p>
+        <div className="admin-box">
+          <span className="admin-icon">👤</span>
+          <span className="admin-text">Admin</span>
+        </div>
       </div>
 
+      {/* Search + Buttons */}
+      <div className="action-bar">
+        <div className="search-box">
+          <FaSearch className="search-icon" />
+          <input type="text" placeholder="Cari pengguna..." />
+        </div>
+        <button className="btn btn-green">Tambah Pengguna</button>
+        <button className="btn btn-orange">Kembali</button>
+      </div>
+
+      {/* Table */}
       <div className="table-container">
         <table className="user-table">
           <thead>
             <tr>
               <th>No</th>
               <th>Nama</th>
-              <th>Email</th>
+              <th>Username</th>
+              <th>Password</th>
               <th>Role</th>
               <th>Aksi</th>
             </tr>
@@ -38,35 +55,24 @@ export default function KelolaPengguna() {
                 <tr key={user.id}>
                   <td>{index + 1}</td>
                   <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
-                    <span
-                      className={`role-badge ${
-                        user.role === "Admin" ? "admin" : "petugas"
-                      }`}
-                    >
-                      {user.role}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="edit-btn"
-                      onClick={() => alert("Edit fitur belum dibuat")}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-btn"
+                  <td>{user.username}</td>
+                  <td>{user.password}</td>
+                  <td>{user.role}</td>
+                  <td className="aksi-btns">
+                    <FaTrash
+                      className="icon-btn delete"
                       onClick={() => handleDelete(user.id)}
-                    >
-                      Hapus
-                    </button>
+                    />
+                    <FaEdit
+                      className="icon-btn edit"
+                      onClick={() => alert("Edit fitur belum dibuat")}
+                    />
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="empty-msg">
+                <td colSpan="6" className="empty-msg">
                   Tidak ada pengguna
                 </td>
               </tr>

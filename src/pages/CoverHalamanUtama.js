@@ -1,18 +1,19 @@
 import React from "react";
-import "../styles/CoverKerangka.css";
+import "../styles/CoverHalamanUtama.css";
 
-export default function CoverKerangka() {
+
+export default function CoverHalamanUtama() {
   return (
-    <div className="coverkerangka-page">
+    <div className="CoverHalamanUtama-page">
       {/* Header */}
-      <div className="coverkerangka-header">
+      <div className="CoverHalamanUtama-header">
         <h2>Cover & Kerangka</h2>
         <p>Dokumentasi laporan & struktur kerangka</p>
       </div>
 
       {/* Content */}
-      <div className="coverkerangka-content">
-        <div className="cover-section">
+      <div className="CoverHalamanUtama-content">
+        <div className="CoverHalamanUtama-section">
           <h3>Cover Laporan</h3>
           <p>
             Halaman cover berisi judul, identitas penulis, instansi, dan tahun
@@ -20,7 +21,7 @@ export default function CoverKerangka() {
           </p>
         </div>
 
-        <div className="kerangka-section">
+        <div className="CoverHalamanUtama-section">
           <h3>Kerangka Laporan</h3>
           <ul>
             <li>Bab I – Pendahuluan</li>
