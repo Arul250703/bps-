@@ -1,41 +1,44 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// 1. Import Layout yang sudah kita buat
+import Layout from "./components/Layout"; 
+
+// Import semua halaman Anda
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import KelolaPengguna from "./pages/KelolaPengguna";
-import KelolaData from "./pages/Kerangka";
 import CoverHalamanUtama from "./pages/CoverHalamanUtama";
-import Tentang from "./pages/Kelola Data";
+// Pastikan path import ini benar sesuai struktur folder Anda
+import Kerangka from "./pages/Kerangka"; 
+import KelolaData from "./pages/Kelola Data";
 
 import "./App.css";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        {/* Login tanpa sidebar */}
+        {/* RUTE 1: Halaman Login (Tanpa Sidebar/Layout) */}
+        {/* Ditempatkan di luar karena tampilannya berbeda */}
         <Route path="/" element={<Login />} />
 
-        {/* Semua halaman dengan sidebar */}
-        <Route
-          path="/*"
-          element={
-            <div className="app-layout">
-              <Sidebar />
-              <main className="main-content">
-                <Routes>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/kelola-pengguna" element={<KelolaPengguna />} />
-                  <Route path="/kelola-data" element={<KelolaData />} />
-                  <Route path="/CoverHalamanUtama" element={<CoverHalamanUtama />} />
-                  <Route path="/tentang" element={<Tentang />} />
-                </Routes>
-              </main>
-            </div>
-          }
-        />
+        {/* RUTE 2: Semua Halaman Lain (Dengan Sidebar/Layout) */}
+        {/* Layout menjadi 'pembungkus' untuk semua rute di dalamnya */}
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/kelola-pengguna" element={<KelolaPengguna />} />
+          <Route path="/cover-halaman-utama" element={<CoverHalamanUtama />} />
+          <Route path="/kerangka" element={<Kerangka />} />
+          <Route path="/kelola-data" element={<KelolaData />} />
+          
+          {/* Anda bisa menambahkan rute lain di sini yang butuh sidebar */}
+          {/* Contoh: <Route path="/tentang" element={<Tentang />} /> */}
+        </Route>
+
+        {/* Rute untuk halaman yang tidak ditemukan (opsional) */}
+        <Route path="*" element={<h1>404: Halaman Tidak ADA</h1>} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

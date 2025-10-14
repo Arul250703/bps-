@@ -1,13 +1,38 @@
+/* src/styles/Sidebar.css */
+
 .sidebar {
-  width: 250px;
   background: linear-gradient(180deg, #0f7c14 0%, #106910 100%);
   color: #fff;
   display: flex;
   flex-direction: column;
   font-family: "Poppins", Arial, sans-serif;
   height: 100vh;
-  overflow-y: auto; /* agar bisa scroll penuh */
+  position: fixed; /* Membuat sidebar tetap di tempat */
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: width 0.3s ease; /* Transisi untuk buka-tutup */
+  overflow: hidden; /* Sembunyikan konten yang meluber */
 }
+
+/* State Terbuka */
+.sidebar.open {
+  width: 250px;
+}
+
+/* State Tertutup */
+.sidebar.closed {
+  width: 0;
+}
+
+/* Wrapper untuk mencegah konten aneh saat transisi */
+.sidebar-content-wrapper {
+  min-width: 250px; /* Jaga agar lebar konten tetap */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 
 /* Scrollbar */
 .sidebar::-webkit-scrollbar {
@@ -23,8 +48,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 5px 15px 5px;
+  padding: 12px 15px 15px 15px; /* Sedikit lebih rapi */
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  flex-shrink: 0; /* Mencegah header menyusut */
 }
 
 .sidebar-logo {
@@ -50,9 +76,10 @@
 /* Menu */
 .menu {
   list-style: none;
-  padding: 0;
+  padding: 0 10px; /* Padding kiri-kanan */
   margin: 15px 0;
-  flex: 1;
+  flex-grow: 1; /* Membuat menu memenuhi sisa ruang */
+  overflow-y: auto; /* Scroll hanya pada menu jika perlu */
 }
 
 .menu li {
@@ -71,6 +98,16 @@
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
+  white-space: nowrap; /* Mencegah teks turun baris */
+}
+
+.dropdown-btn {
+  justify-content: space-between;
+}
+
+.dropdown-btn > span {
+  display: flex;
+  align-items: center;
 }
 
 .menu a .icon,
@@ -90,25 +127,17 @@
 .menu a.active {
   font-weight: 700;
   color: #fff;
-  position: relative;
-}
-
-.menu a.active::after {
-  content: "";
-  position: absolute;
-  bottom: 2px;
-  left: 15px;
-  right: 15px;
-  height: 2px;
-  background: #ff7c00;
-  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
 }
 
 /* Submenu */
 .submenu {
   list-style: none;
-  padding: 5px 0 5px 20px; /* agak masuk ke dalam */
+  padding: 5px 0 5px 30px; /* Agak masuk ke dalam */
   margin: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 
 .submenu li {
@@ -117,16 +146,11 @@
 }
 
 .submenu a {
-  display: block; /* teks aja, tanpa flex */
+  display: block; /* Teks aja, tanpa flex */
   padding: 6px 10px;
   color: #dcdcdc;
   text-decoration: none;
   font-weight: 400;
-}
-
-/* Hilangkan icon di submenu */
-.submenu a .icon {
-  display: none !important;
 }
 
 .submenu a:hover {
@@ -145,7 +169,8 @@
   color: #fff;
   padding: 12px 5px 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
-  margin-top: auto; /* biar footer selalu di bawah */
+  margin-top: auto; /* Biar footer selalu di bawah */
+  flex-shrink: 0; /* Mencegah footer menyusut */
 }
 
 .sidebar-footer-logo {
