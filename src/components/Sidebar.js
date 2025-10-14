@@ -1,11 +1,25 @@
 import React from "react";
-import { FaHome, FaUsers, FaDatabase, FaCity, FaLink } from "react-icons/fa";
+import {
+  FaHome,
+  FaUsers,
+  FaFileAlt,
+  FaList,
+  FaDatabase,
+  FaTable,
+  FaCaretDown,
+} from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import "../styles/Sidebar.css";
 import logo from "../assets/logo2.png";
 import logoFooter from "../assets/logo.png";
 
 export default function Sidebar() {
+  const [kerangkaOpen, setKerangkaOpen] = React.useState(false);
+
+  const toggleKerangka = () => {
+    setKerangkaOpen(!kerangkaOpen);
+  };
+
   return (
     <div className="sidebar">
       {/* Header */}
@@ -17,38 +31,55 @@ export default function Sidebar() {
         </div>
       </div>
 
+      {/* Divider */}
       <hr className="divider" />
 
       {/* Menu */}
       <ul className="menu">
         <li>
           <NavLink to="/dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
-            <FaHome className="icon" /> <span>Dashboard</span>
+            <span>Dashboard</span>
           </NavLink>
         </li>
+
         <li>
           <NavLink to="/kelola-pengguna" className={({ isActive }) => (isActive ? "active" : "")}>
-            <FaUsers className="icon" /> <span>Kelola Pengguna</span>
+            <span>Kelola Pengguna</span>
           </NavLink>
         </li>
+
         <li>
-          <NavLink to="/cover-kerangka" className={({ isActive }) => (isActive ? "active" : "")}>
-            <FaDatabase className="icon" /> <span>Cover & Kerangka</span>
+          <NavLink to="/cover-halaman-utama" className={({ isActive }) => (isActive ? "active" : "")}>
+            <span>Cover Halaman Utama</span>
           </NavLink>
         </li>
+
+        {/* Kerangka */}
+        <li>
+          <div className={`submenu-toggle ${kerangkaOpen ? "active" : ""}`} onClick={toggleKerangka}>
+            <span>Kerangka</span> <FaCaretDown className="caret-icon" />
+          </div>
+          {kerangkaOpen && (
+            <ul className="submenu">
+              <li>
+                <NavLink to="/kerangka/beranda-utama">Beranda Utama</NavLink>
+              </li>
+              <li>
+                <NavLink to="/kerangka/data-utama">Data Utama</NavLink>
+              </li>
+              <li>
+                <NavLink to="/kerangka/tema">Tema</NavLink>
+              </li>
+              <li>
+                <NavLink to="/kerangka/tabel">Tabel</NavLink>
+              </li>
+            </ul>
+          )}
+        </li>
+
         <li>
           <NavLink to="/kelola-data" className={({ isActive }) => (isActive ? "active" : "")}>
-            <FaDatabase className="icon" /> <span>Kelola Data</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/tentang" className={({ isActive }) => (isActive ? "active" : "")}>
-            <FaCity className="icon" /> <span>Tentang Kota Sukabumi</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/link-terkait" className={({ isActive }) => (isActive ? "active" : "")}>
-            <FaLink className="icon" /> <span>Link Terkait</span>
+            <span>Kelola Data</span>
           </NavLink>
         </li>
       </ul>

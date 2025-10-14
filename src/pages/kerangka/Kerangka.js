@@ -1,17 +1,17 @@
 import React from "react";
-import "../styles/CoverKerangka.css";
+import "../../styles/CoverKerangka.css";
 
-export default function CoverKerangka() {
+export default function Kerangka() {
   return (
-    <div className="coverkerangka-page">
+    <div className="kerangka-page">
       {/* Header */}
-      <div className="coverkerangka-header">
-        <h2>Cover & Kerangka</h2>
+      <div className="kerangka-header">
+        <h2>Kerangka</h2>
         <p>Dokumentasi laporan & struktur kerangka</p>
       </div>
 
       {/* Content */}
-      <div className="coverkerangka-content">
+      <div className="kerangka-content">
         <div className="cover-section">
           <h3>Cover Laporan</h3>
           <p>
