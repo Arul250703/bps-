@@ -1,76 +1,54 @@
-import React, { useState } from "react";
+import React from "react";
 import "../styles/KelolaData.css";
+import { FaPlus, FaEdit, FaTrash, FaUser, FaChevronDown } from "react-icons/fa";
 
 export default function KelolaData() {
-  const [data, setData] = useState([
-    { id: 1, kategori: "Paket Wisata Bandung", harga: "Rp 2.500.000", status: "Aktif" },
-    { id: 2, kategori: "Paket Wisata Bali", harga: "Rp 4.200.000", status: "Aktif" },
-    { id: 3, kategori: "Paket Wisata Lombok", harga: "Rp 3.800.000", status: "Nonaktif" },
-  ]);
-
-  const handleDelete = (id) => {
-    if (window.confirm("Yakin ingin menghapus data ini?")) {
-      setData(data.filter((d) => d.id !== id));
-    }
-  };
+  const data = [
+    { id: 1, judul: "JUMLAH PENDUDUK LAKI-LAKI PEREMPUAN" },
+    { id: 2, judul: "" },
+    { id: 3, judul: "" },
+    { id: 4, judul: "" },
+  ];
 
   return (
-    <div className="kelola-page">
-      <div className="kelola-header">
-        <h2>Kelola Data</h2>
-        <p>Manajemen data paket wisata</p>
+    <div className="kelola-container">
+      {/* Header */}
+      <div className="header-row">
+        <h2 className="title">KELOLA DATA</h2>
+        <div className="admin-box">
+          <FaUser className="user-icon" />
+          <span>Admin</span>
+          <FaChevronDown className="chevron" />
+        </div>
       </div>
 
-      <div className="table-container">
-        <table className="data-table">
+      {/* Tombol kembali */}
+      <div className="back-btn-container">
+        <button className="back-btn">Kembali</button>
+      </div>
+
+      {/* Tabel */}
+      <div className="table-wrapper">
+        <table className="custom-table">
           <thead>
             <tr>
-              <th>No</th>
-              <th>Kategori</th>
-              <th>Harga</th>
-              <th>Status</th>
-              <th>Aksi</th>
+              <th className="no-header">NO</th>
+              <th className="judul-header">JUDUL NARASI</th>
+              <th className="aksi-header">AKSI</th>
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 ? (
-              data.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{index + 1}</td>
-                  <td>{item.kategori}</td>
-                  <td>{item.harga}</td>
-                  <td>
-                    <span
-                      className={`status-badge ${
-                        item.status === "Aktif" ? "aktif" : "nonaktif"
-                      }`}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="edit-btn"
-                      onClick={() => alert("Edit fitur belum tersedia")}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      Hapus
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="empty-msg">
-                  Tidak ada data
+            {data.map((row, index) => (
+              <tr key={row.id}>
+                <td>{index + 1}</td>
+                <td>{row.judul}</td>
+                <td className="aksi-col">
+                  <button className="icon-btn plus"><FaPlus /></button>
+                  <button className="icon-btn edit"><FaEdit /></button>
+                  <button className="icon-btn delete"><FaTrash /></button>
                 </td>
               </tr>
-            )}
+            ))}
           </tbody>
         </table>
       </div>

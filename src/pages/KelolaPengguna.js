@@ -1,81 +1,82 @@
-// import React, { useState } from "react";
-// import "../styles/KelolaPengguna.css";
 
-// export default function KelolaPengguna() {
-//   const [users, setUsers] = useState([
-//     { id: 1, name: "Admin Utama", Username: "admin", Password: "admin123", role: "Admin" },
-//     { id: 2, name: "Petugas 1", Username: "petugas1", Password: "petugas123", role: "Petugas" },
-//     { id: 3, name: "Petugas 2", Username: "petugas2", Password: "petugas123", role: "Petugas" },
-//   ]);
 
-//   const handleDelete = (id) => {
-//     if (window.confirm("Yakin ingin menghapus pengguna ini?")) {
-//       setUsers(users.filter((u) => u.id !== id));
-//     }
-//   };
+import React, { useState } from "react";
+import "../styles/KelolaPengguna.css";
+import { FaTrash, FaEdit, FaSearch } from "react-icons/fa";
 
-//   return (
-//     <div className="kelola-page">
-//       <div className="kelola-header">
-//         <h2>Kelola Pengguna</h2>
-//         <p>Manajemen akun admin dan petugas</p>
-//       </div>
+export default function KelolaPengguna() {
+  const [users, setUsers] = useState([
+    { id: 1, name: "Admin Utama", username: "admin", password: "******", role: "Admin" },
+    { id: 2, name: "Petugas 1", username: "petugas1", password: "******", role: "Petugas" },
+    { id: 3, name: "Petugas 2", username: "petugas2", password: "******", role: "Petugas" },
+  ]);
 
-//       <div className="table-container">
-//         <table className="user-table">
-//           <thead>
-//             <tr>
-//               <th>No</th>
-//               <th>Nama</th>
-//               <th>Username</th>
-//               <th>Password</th>
-//               <th>Role</th>
-//               <th>Aksi</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {users.length > 0 ? (
-//               users.map((user, index) => (
-//                 <tr key={user.id}>
-//                   <td>{index + 1}</td>
-//                   <td>{user.name}</td>
-//                   <td>{user.Username}</td>
-//                   <td>{user.Password}</td>
-//                   <td>
-//                     <span
-//                       className={`role-badge ${
-//                         user.role === "Admin" ? "admin" : "petugas"
-//                       }`}
-//                     >
-//                       {user.role}
-//                     </span>
-//                   </td>
-//                   <td>
-//                     <button
-//                       className="edit-btn"
-//                       onClick={() => alert("Edit fitur belum dibuat")}
-//                     >
-//                       Edit
-//                     </button>
-//                     <button
-//                       className="delete-btn"
-//                       onClick={() => handleDelete(user.id)}
-//                     >
-//                       Hapus
-//                     </button>
-//                   </td>
-//                 </tr>
-//               ))
-//             ) : (
-//               <tr>
-//                 <td colSpan="5" className="empty-msg">
-//                   Tidak ada pengguna
-//                 </td>
-//               </tr>
-//             )}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// }
+  return (
+    <div className="kelola-page">
+      {/* Header */}
+      <div className="kelola-header">
+        <h2>Kelola Pengguna</h2>
+        <div className="admin-box">
+          <span className="admin-icon">👤</span>
+          <span className="admin-text">Admin</span>
+        </div>
+      </div>
+
+      {/* Search + Buttons */}
+      <div className="action-bar">
+        <div className="search-box">
+          <FaSearch className="search-icon" />
+          <input type="text" placeholder="Cari pengguna..." />
+        </div>
+        <button className="btn btn-green">Tambah Pengguna</button>
+        <button className="btn btn-orange">Kembali</button>
+      </div>
+
+      {/* Table */}
+      <div className="table-container">
+        <table className="user-table">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Role</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.length > 0 ? (
+              users.map((user, index) => (
+                <tr key={user.id}>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.username}</td>
+                  <td>{user.password}</td>
+                  <td>{user.role}</td>
+                  <td className="aksi-btns">
+                    <FaTrash
+                      className="icon-btn delete"
+                      onClick={() => handleDelete(user.id)}
+                    />
+                    <FaEdit
+                      className="icon-btn edit"
+                      onClick={() => alert("Edit fitur belum dibuat")}
+                    />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="empty-msg">
+                  Tidak ada pengguna
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
