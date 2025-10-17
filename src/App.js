@@ -12,6 +12,7 @@ import BerandaUtama from "./pages/kerangka/BerandaUtama";
 import DataUtama from "./pages/kerangka/DataUtama";
 import Tabel from "./pages/kerangka/Tabel";
 import CoverHalamanUtama from "./pages/CoverHalamanUtama";
+import InputData from "./pages/InputData";
 
 import "./App.css";
 
@@ -35,6 +36,7 @@ function App() {
 
                   {/* Kelola Data */}
                   <Route path="kelola-data" element={<KelolaData />} />
+                  <Route path="/input-data" element={<InputData />} />
 
                   {/* Kerangka */}
                   <Route path="kerangka" element={<Kerangka />} />
@@ -46,7 +48,7 @@ function App() {
                     path="kerangka/data-utama"
                     element={<DataUtama />}
                   />
-                  <Route path="kerangka/tema" element={<Tema />} />
+                  <Route path="kerangka/tema/:id" element={<Tema />} />
                   <Route path="kerangka/tabel" element={<Tabel />} />
                   <Route
                     path="kerangka/halaman-utama"

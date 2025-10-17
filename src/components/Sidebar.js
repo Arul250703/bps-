@@ -37,11 +37,11 @@ export default function Sidebar() {
           </NavLink>
         </li>
 
-        <li>
+        {/* <li>
           <NavLink to="/kelola-pengguna" className={({ isActive }) => (isActive ? "active" : "")}>
             <FaUsers className="icon" /> <span>Kelola Pengguna</span>
           </NavLink>
-        </li>
+        </li> */}
 
         <li>
           <NavLink to="/cover-halaman-utama" className={({ isActive }) => (isActive ? "active" : "")}>

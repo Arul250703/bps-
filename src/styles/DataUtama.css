@@ -1,7 +1,8 @@
 .datautama-container {
   padding: 20px;
   background-color: #e8f0ff;
-  height: 100vh;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .datautama-header {
@@ -59,7 +60,6 @@
 .datautama-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
 }
 
 .datautama-table th {
@@ -79,18 +79,68 @@
   background-color: #f9f9f9;
 }
 
-/* ICON STYLE */
+.datautama-table th:nth-child(4),
+.datautama-table td:nth-child(4) {
+  width: 100px;
+}
+
+/* AKSI */
 .aksi-icons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  position: relative;
 }
 
-.icon {
-  cursor: pointer;
+.aksi-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.aksi-trigger {
   font-size: 18px;
+  color: #0056b3;
+  cursor: pointer;
 }
 
+/* DROPDOWN MENU */
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 14px;
+  text-align: left;
+  width: 100%;
+  color: #333;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-item .icon {
+  font-size: 16px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ICON COLORS */
 .icon.tambah {
   color: #0056b3;
 }
