@@ -1,6 +1,5 @@
 import React from "react";
-import "../styles/CoverHalamanUtama.css";
-
+import "../../src/styles/CoverHalamanUtama.css";
 
 export default function CoverHalamanUtama() {
   return (

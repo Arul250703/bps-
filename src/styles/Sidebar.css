@@ -1,18 +1,19 @@
-/* src/styles/Sidebar.css */
-
+/* ==== SIDEBAR CONTAINER ==== */
 .sidebar {
+  width: 250px;
+  height: 100vh;
   background: linear-gradient(180deg, #0f7c14 0%, #106910 100%);
   color: #fff;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   font-family: "Poppins", Arial, sans-serif;
-  height: 100vh;
-  position: fixed; /* Membuat sidebar tetap di tempat */
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 1000;
-  transition: width 0.3s ease; /* Transisi untuk buka-tutup */
-  overflow: hidden; /* Sembunyikan konten yang meluber */
+  transition: width 0.3s ease;
+  overflow-y: auto;
 }
 
 /* State Terbuka */
@@ -25,61 +26,60 @@
   width: 0;
 }
 
-/* Wrapper untuk mencegah konten aneh saat transisi */
-.sidebar-content-wrapper {
-  min-width: 250px; /* Jaga agar lebar konten tetap */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-
-/* Scrollbar */
+/* ==== SCROLLBAR ==== */
 .sidebar::-webkit-scrollbar {
   width: 6px;
 }
+
 .sidebar::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 5px;
 }
 
-/* Header */
+/* ==== WRAPPER ==== */
+.sidebar-content-wrapper {
+  min-width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==== HEADER ==== */
 .sidebar-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 15px 15px 15px; /* Sedikit lebih rapi */
+  padding: 12px 15px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-  flex-shrink: 0; /* Mencegah header menyusut */
+  flex-shrink: 0;
 }
 
 .sidebar-logo {
-  width: 42px;
-  height: 42px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
+  margin-right: 10px;
 }
 
 .header-text h3 {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: bold;
   margin: 0;
-  color: #fff;
 }
 
 .header-text p {
   font-size: 11px;
-  margin: 0;
-  color: #e0e0e0;
   line-height: 1.3;
+  margin: 0;
 }
 
-/* Menu */
+/* ==== MENU ==== */
 .menu {
   list-style: none;
-  padding: 0 10px; /* Padding kiri-kanan */
+  padding: 0 10px;
   margin: 15px 0;
-  flex-grow: 1; /* Membuat menu memenuhi sisa ruang */
-  overflow-y: auto; /* Scroll hanya pada menu jika perlu */
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .menu li {
@@ -87,6 +87,7 @@
   margin-bottom: 8px;
 }
 
+/* ==== PERBAIKAN PADA ATURAN INI ==== */
 .menu a,
 .dropdown-btn {
   display: flex;
@@ -94,20 +95,23 @@
   padding: 10px 15px;
   font-size: 14px;
   font-weight: 500;
-  color: white;
+  color: #fff;
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
-  white-space: nowrap; /* Mencegah teks turun baris */
+  white-space: nowrap;
+  border-radius: 4px;
+
+  /* --- TAMBAHAN PENTING --- */
+  background: transparent;  /* Hapus background putih default */
+  border: none;             /* Hapus border default */
+  width: 100%;              /* Pastikan lebarnya penuh */
+  box-sizing: border-box;   /* Agar padding tidak merusak lebar */
+  /* ------------------------ */
 }
 
 .dropdown-btn {
   justify-content: space-between;
-}
-
-.dropdown-btn > span {
-  display: flex;
-  align-items: center;
 }
 
 .menu a .icon,
@@ -120,21 +124,19 @@
 .menu a:hover,
 .dropdown-btn:hover {
   background: rgba(255, 255, 255, 0.12);
-  border-radius: 4px;
 }
 
-/* Active menu */
+/* ==== ACTIVE MENU ==== */
 .menu a.active {
   font-weight: 700;
   color: #fff;
   background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
 }
 
-/* Submenu */
+/* ==== SUBMENU ==== */
 .submenu {
   list-style: none;
-  padding: 5px 0 5px 30px; /* Agak masuk ke dalam */
+  padding: 5px 0 5px 25px;
   margin: 0;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
@@ -146,11 +148,12 @@
 }
 
 .submenu a {
-  display: block; /* Teks aja, tanpa flex */
+  display: block;
   padding: 6px 10px;
   color: #dcdcdc;
   text-decoration: none;
   font-weight: 400;
+  border-radius: 3px;
 }
 
 .submenu a:hover {
@@ -162,19 +165,19 @@
   font-weight: 600;
 }
 
-/* Footer */
+/* ==== FOOTER ==== */
 .sidebar-footer {
   text-align: center;
-  font-size: 10.5px;
+  padding: 12px 8px;
+  font-size: 11px;
   color: #fff;
-  padding: 12px 5px 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
-  margin-top: auto; /* Biar footer selalu di bawah */
-  flex-shrink: 0; /* Mencegah footer menyusut */
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .sidebar-footer-logo {
   width: 60px;
-  margin: 6px auto;
+  margin: 6px auto 5px;
   display: block;
 }

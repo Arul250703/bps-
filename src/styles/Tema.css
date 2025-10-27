@@ -1,0 +1,108 @@
+.tema-container {
+  padding: 20px;
+  background-color: #e8f0ff;
+  height: 100vh;
+}
+
+.tema-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.admin-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+  padding: 5px 10px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-avatar {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.btn-kembali {
+  background-color: #f78b1f;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-kembali:hover {
+  background-color: #e57900;
+}
+
+/* TABLE STYLE */
+.table-container {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  border: 2px solid #008000;
+  box-shadow: 0 0 5px rgba(0, 128, 0, 0.3);
+}
+
+.tema-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tema-table th {
+  background-color: #009846;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+.tema-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.tema-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* ICON STYLE */
+.aksi-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.icon.tambah {
+  color: #0056b3;
+}
+
+.icon.edit {
+  color: #007bff;
+}
+
+.icon.hapus {
+  color: #dc3545;
+}
+
+.icon.buka {
+  color: #0d6efd;
+}
