@@ -9,21 +9,21 @@ export default function KelolaData() {
   const [judul, setJudul] = useState("");
   const navigate = useNavigate();
 
-  // Data Kelompok
   const kelompokOptions = [
     "INFOGRAFIS",
     "INDIKATOR MAKRO",
     "SEKILAS KOTA SUKABUMI",
   ];
 
-  // Data Indikator
   const indikatorOptions = {
-    "INDIKATOR MAKRO": ["KEPENDUDUKAN", "KETENAGAKERJAAN", "KEMISKINAN"],
+    "INDIKATOR MAKRO": ["KEPENDUDUKAN", "KETENAGAKERJAAN", "KEMISKINAN",
+      "PENDIDIKAN", "PEMBANGUNAN_MANUSIA", "PRODUK_DOMESTIK_REGIONAL_BRUTO", "KEUANGAN", "PERTANIAN_PERKEBUNAN", 
+      "HARGA_INFLASI_NILAI_TUKAR_PETANI", "PERTAMBANGAN", "UPAH_MINIMUM_KABUPATEN"
+    ],
     INFOGRAFIS: ["PENDIDIKAN", "KESEHATAN"],
     "SEKILAS KOTA SUKABUMI": ["LUAS WILAYAH", "JUMLAH KECAMATAN"],
   };
 
-  // Data Judul Konten
   const judulOptions = {
     KEPENDUDUKAN: [
       "JUMLAH PENDUDUK",
@@ -41,6 +41,47 @@ export default function KelolaData() {
       "GARIS KEMISKINAN",
       "INDEKS KEDALAMAN KEMISKINAN (P1)",
     ],
+    PENDIDIKAN: [
+      "ANGKA PARTISIPASI KASAR (APK)",
+      "ANGKA PARTISIPASI MURNI (APM)",
+      "ANGKA MELEKA HURUF (AMH)",
+    ],
+    PEMBANGUNAN_MANUSIA: [
+      "INDEKS PEMBANGUNAN MANUSIA (IPM)",
+      "ANGKA HARAPAN HIDUP (AHH)",  
+      "RATA-RATA LAMA SEKOLAH (RLS)",
+      "PENGELUARAN PENDIDIKAN PER KAPITA (PPK)",
+    ],
+    PRODUK_DOMESTIK_REGIONAL_BRUTO: [
+      "PDRB ADHB LAPANGAN USAHA",
+      "PDRB ADHK LAPANGAN USAHA",  
+      "DISTRIBUSI PDRB ADHB LAPANGAN USAHA",
+      "LAJU PETUMBUAHAN EKONOMI",
+    ],
+
+    KEUANGAN: [
+      "DATA KEUANGAN DAERAH",
+    ],
+
+    PERTANIAN_PERKEBUNAN: [
+      "TANAMAN PANGAN",
+      "HORTIKULTURA",
+      "PERKEBUNAN",
+    ],
+    HARGA_INFLASI_NILAI_TUKAR_PETANI: [
+      "INFLASI",
+      "INDEKS KEMAHALAN KONTRUKSI (IKK)",
+      "NILAI TUKAR PETANI (NTP)",
+    ],
+
+    PERTAMBANGAN: [
+      "PERTAMBANGAN",
+    ],
+
+    UPAH_MINIMUM_KABUPATEN: [
+      "UPAH MINIMUM KABUPATEN (UMK)",
+    ],
+
   };
 
   const handleInput = () => {
@@ -55,7 +96,6 @@ export default function KelolaData() {
 
   return (
     <div className="kelola-container">
-      {/* Header */}
       <div className="header-row">
         <h2 className="title">KELOLA DATA</h2>
         <div className="admin-box">
@@ -65,7 +105,6 @@ export default function KelolaData() {
         </div>
       </div>
 
-      {/* Form Pilihan */}
       <div className="kelola-form">
         <div className="form-group">
           <label>Kelompok</label>

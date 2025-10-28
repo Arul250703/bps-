@@ -14,6 +14,15 @@
   margin-bottom: 25px;
 }
 
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.clickable-row:hover {
+  background-color: #f0f8ff;
+}
+
 
 .title-box h2 {
   font-size: 22px;

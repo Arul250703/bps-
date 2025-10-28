@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaUser, FaChevronDown } from "react-icons/fa";
 import "../styles/InputData.css";
 
 export default function InputData() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { kelompok, indikator, judul } = location.state || {};
 
   const [form, setForm] = useState({
     gambar: null,
     judulNarasi: "",
     isiNarasi: "",
-    pilihTabel: "",
   });
 
   const handleChange = (e) => {
@@ -18,34 +19,58 @@ export default function InputData() {
   };
 
   const handleFile = (e) => {
-    setForm({ ...form, gambar: e.target.files[0] });
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setForm({ ...form, gambar: reader.result });
+    };
+    if (file) reader.readAsDataURL(file);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Ambil data lama di localStorage
     const existingData = JSON.parse(localStorage.getItem("dataTabel")) || [];
 
-    // Tambahkan data baru
     const newData = {
       id: Date.now(),
-      gambar: form.gambar ? form.gambar.name : "",
+      kelompok,
+      indikator,
+      judul, // Ini yang akan digunakan untuk filter di Tema
+      gambar: form.gambar,
       judulNarasi: form.judulNarasi,
       isiNarasi: form.isiNarasi,
-      pilihTabel: form.pilihTabel,
+      // Tambahkan field untuk memudahkan filtering
+      indikatorId: getIndikatorId(indikator), // Untuk relasi dengan halaman Tema
     };
 
     existingData.push(newData);
     localStorage.setItem("dataTabel", JSON.stringify(existingData));
 
-    alert("Data berhasil disimpan!");
-    navigate("/tabel"); // Arahkan ke halaman Tabel
+    alert(`Data berhasil disimpan ke tema: ${judul}`);
+    navigate("/kelola-data"); // Kembali ke halaman kelola data
+  };
+
+  // Helper function untuk mapping indikator ke ID
+  const getIndikatorId = (indikatorName) => {
+    const indikatorMap = {
+      "KEPENDUDUKAN": 1,
+      "KETENAGAKERJAAN": 2,
+      "KEMISKINAN": 3,
+      "PENDIDIKAN": 4,
+      "PEMBANGUNAN_MANUSIA": 5,
+      "PRODUK_DOMESTIK_REGIONAL_BRUTO": 6,
+      "KEUANGAN": 7,
+      "PERTANIAN_PERKEBUNAN": 8,
+      "HARGA_INFLASI_NILAI_TUKAR_PETANI": 9,
+      "PERTAMBANGAN": 10,
+      "UPAH_MINIMUM_KABUPATEN": 11,
+    };
+    return indikatorMap[indikatorName] || null;
   };
 
   return (
     <div className="kelola-container">
-      {/* Header */}
       <div className="header-row">
         <h2 className="title">KELOLA DATA</h2>
         <div className="admin-box">
@@ -55,23 +80,19 @@ export default function InputData() {
         </div>
       </div>
 
-      {/* Breadcrumb */}
       <div className="breadcrumb">
-        <button className="btn-breadcrumb">INDIKATOR MAKRO</button>
-        <button className="btn-breadcrumb">KEPENDUDUKAN</button>
-        <input className="breadcrumb-input" value="JUMLAH PENDUDUK" readOnly />
+        <button className="btn-breadcrumb">{kelompok}</button>
+        <button className="btn-breadcrumb">{indikator}</button>
+        <input className="breadcrumb-input" value={judul} readOnly />
         <button className="btn-kembali" onClick={() => navigate(-1)}>
           Kembali
         </button>
       </div>
 
-      {/* Form Input */}
       <form className="input-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Gambar Sesuai Judul</label>
-          <div className="file-group">
-            <input type="file" accept="image/*" onChange={handleFile} />
-          </div>
+          <input type="file" accept="image/*" onChange={handleFile} />
         </div>
 
         <div className="form-group">
@@ -95,21 +116,6 @@ export default function InputData() {
             placeholder="Masukkan isi narasi"
             required
           ></textarea>
-        </div>
-
-        <div className="form-group">
-          <label>Pilih Tabel</label>
-          <select
-            name="pilihTabel"
-            value={form.pilihTabel}
-            onChange={handleChange}
-            required
-          >
-            <option value="">-- Pilih Tabel --</option>
-            <option value="Tabel 1">Tabel 1</option>
-            <option value="Tabel 2">Tabel 2</option>
-            <option value="Tabel 3">Tabel 3</option>
-          </select>
         </div>
 
         <button type="submit" className="btn-simpan">

@@ -8,18 +8,14 @@ export default function Tabel() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Ambil data yang dikirim dari Tema.jsx
   const { judul, indikator } = location.state || {};
 
   useEffect(() => {
-    // Ambil semua data dari localStorage
     const storedData = JSON.parse(localStorage.getItem("dataTabel")) || [];
-
-    // Kalau ada judul dikirim dari Tema.jsx, filter berdasarkan judul tersebut
+    
     if (judul) {
-      const filteredData = storedData.filter(
-        (item) => item.pilihTabel === judul
-      );
+      // Filter data berdasarkan judul yang dipilih
+      const filteredData = storedData.filter(item => item.judul === judul);
       setData(filteredData);
     } else {
       setData(storedData);
@@ -28,7 +24,6 @@ export default function Tabel() {
 
   return (
     <div className="tabel-container">
-      {/* Header */}
       <div className="header-row">
         <div>
           <h2 className="title">
@@ -48,12 +43,14 @@ export default function Tabel() {
         </div>
       </div>
 
-      {/* Tombol kembali */}
       <button className="btn-kembali" onClick={() => navigate(-1)}>
         Kembali
       </button>
 
-      {/* Tabel */}
+      <div className="table-info">
+        <p>Menampilkan {data.length} data untuk: <strong>{judul}</strong></p>
+      </div>
+
       <table className="data-table">
         <thead>
           <tr>
@@ -61,13 +58,14 @@ export default function Tabel() {
             <th>Gambar</th>
             <th>Judul Narasi</th>
             <th>Isi Narasi</th>
-            <th>Pilih Tabel</th>
+            <th>Kelompok</th>
+            <th>Indikator</th>
           </tr>
         </thead>
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td colSpan="5" style={{ textAlign: "center" }}>
+              <td colSpan="6" style={{ textAlign: "center" }}>
                 Belum ada data untuk tema ini.
               </td>
             </tr>
@@ -80,15 +78,21 @@ export default function Tabel() {
                     <img
                       src={item.gambar}
                       alt="Gambar"
-                      style={{ width: "60px", borderRadius: "6px" }}
+                      style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "6px" }}
                     />
                   ) : (
                     "-"
                   )}
                 </td>
                 <td>{item.judulNarasi}</td>
-                <td>{item.isiNarasi}</td>
-                <td>{item.pilihTabel}</td>
+                <td className="isi-narasi-cell">
+                  {item.isiNarasi.length > 100 
+                    ? `${item.isiNarasi.substring(0, 100)}...` 
+                    : item.isiNarasi
+                  }
+                </td>
+                <td>{item.kelompok}</td>
+                <td>{item.indikator}</td>
               </tr>
             ))
           )}
