@@ -47,6 +47,7 @@ export default function InputData() {
     existingData.push(newData);
     localStorage.setItem("dataTabel", JSON.stringify(existingData));
 
+<<<<<<< HEAD
     alert(`Data berhasil disimpan ke tema: ${judul}`);
     navigate("/kelola-data"); // Kembali ke halaman kelola data
   };
@@ -67,6 +68,10 @@ export default function InputData() {
       "UPAH_MINIMUM_KABUPATEN": 11,
     };
     return indikatorMap[indikatorName] || null;
+=======
+    alert("Data berhasil disimpan!");
+    navigate("/kerangka/tabel"); // Arahkan ke halaman Tabel
+>>>>>>> 29753cabf37dc562ee745df9bfeeb17ca13e5cf2
   };
 
   return (

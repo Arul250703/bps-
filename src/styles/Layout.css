@@ -1,0 +1,48 @@
+/* src/styles/Layout.css */
+
+.app-layout {
+  display: flex;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #f4f7fa;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease; /* Transisi saat konten bergeser */
+  margin-left: 0; /* Default saat sidebar tertutup */
+}
+
+/* Saat sidebar terbuka, geser konten utama ke kanan */
+.main-content.shifted {
+  margin-left: 250px;
+}
+
+.hamburger-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: fixed; /* Agar tombol tetap terlihat */
+  top: 15px;
+  left: 15px; /* Awalnya di pojok kiri atas */
+  z-index: 1001; /* Di atas sidebar */
+  transition: left 0.3s ease; /* Transisi posisi tombol */
+}
+
+/* Saat sidebar terbuka, geser tombol hamburger ke kanan */
+.main-content.shifted .hamburger-btn {
+  left: 265px; /* 250px (lebar sidebar) + 15px (jarak) */
+}
+
+.content-wrapper {
+  margin-top: 60px; /* Memberi ruang di bawah tombol hamburger */
+}

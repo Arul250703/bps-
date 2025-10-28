@@ -11,7 +11,19 @@
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 1000;
+  transition: width 0.3s ease;
   overflow-y: auto;
+}
+
+/* State Terbuka */
+.sidebar.open {
+  width: 250px;
+}
+
+/* State Tertutup */
+.sidebar.closed {
+  width: 0;
 }
 
 /* ==== SCROLLBAR ==== */
@@ -24,12 +36,22 @@
   border-radius: 5px;
 }
 
+/* ==== WRAPPER ==== */
+.sidebar-content-wrapper {
+  min-width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ==== HEADER ==== */
 .sidebar-header {
   display: flex;
   align-items: center;
-  padding: 15px;
+  gap: 12px;
+  padding: 12px 15px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
 }
 
 .sidebar-logo {
@@ -54,9 +76,10 @@
 /* ==== MENU ==== */
 .menu {
   list-style: none;
-  padding: 0;
+  padding: 0 10px;
   margin: 15px 0;
-  flex: 1;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .menu li {
@@ -64,6 +87,7 @@
   margin-bottom: 8px;
 }
 
+/* ==== PERBAIKAN PADA ATURAN INI ==== */
 .menu a,
 .dropdown-btn {
   display: flex;
@@ -75,7 +99,19 @@
   text-decoration: none;
   transition: all 0.3s ease;
   cursor: pointer;
+  white-space: nowrap;
   border-radius: 4px;
+
+  /* --- TAMBAHAN PENTING --- */
+  background: transparent;  /* Hapus background putih default */
+  border: none;             /* Hapus border default */
+  width: 100%;              /* Pastikan lebarnya penuh */
+  box-sizing: border-box;   /* Agar padding tidak merusak lebar */
+  /* ------------------------ */
+}
+
+.dropdown-btn {
+  justify-content: space-between;
 }
 
 .menu a .icon,
@@ -94,18 +130,7 @@
 .menu a.active {
   font-weight: 700;
   color: #fff;
-  position: relative;
-}
-
-.menu a.active::after {
-  content: "";
-  position: absolute;
-  bottom: 2px;
-  left: 15px;
-  right: 15px;
-  height: 2px;
-  background: #ff7c00;
-  border-radius: 2px;
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 /* ==== SUBMENU ==== */
@@ -113,6 +138,8 @@
   list-style: none;
   padding: 5px 0 5px 25px;
   margin: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 
 .submenu li {
@@ -146,6 +173,7 @@
   color: #fff;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
   margin-top: auto;
+  flex-shrink: 0;
 }
 
 .sidebar-footer-logo {
