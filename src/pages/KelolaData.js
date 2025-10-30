@@ -16,86 +16,44 @@ export default function KelolaData() {
   ];
 
   const indikatorOptions = {
-<<<<<<< HEAD
-    "INDIKATOR MAKRO": ["KEPENDUDUKAN", "KETENAGAKERJAAN", "KEMISKINAN",
-      "PENDIDIKAN", "PEMBANGUNAN_MANUSIA", "PRODUK_DOMESTIK_REGIONAL_BRUTO", "KEUANGAN", "PERTANIAN_PERKEBUNAN", 
-      "HARGA_INFLASI_NILAI_TUKAR_PETANI", "PERTAMBANGAN", "UPAH_MINIMUM_KABUPATEN"
+    "INDIKATOR MAKRO": [
+      "KEPENDUDUKAN",
+      "KETENAGAKERJAAN",
+      "KEMISKINAN",
+      "PENDIDIKAN",
+      "PEMBANGUNAN_MANUSIA",
+      "PRODUK_DOMESTIK_REGIONAL_BRUTO",
+      "KEUANGAN",
+      "PERTANIAN_PERKEBUNAN",
+      "HARGA_INFLASI_NILAI_TUKAR_PETANI",
+      "PERTAMBANGAN",
+      "UPAH_MINIMUM_KABUPATEN",
     ],
-    INFOGRAFIS: ["PENDIDIKAN", "KESEHATAN"],
-=======
-    "INDIKATOR MAKRO":
-     ["KEPENDUDUKAN",
-      "KETENAGAKERJAAN", 
-      "KEMISKINAN"
-     ],
-    INFOGRAFIS: ["PENDIDIKAN", 
-
-    ],
->>>>>>> 29753cabf37dc562ee745df9bfeeb17ca13e5cf2
-    "SEKILAS KOTA SUKABUMI": ["LUAS WILAYAH", "JUMLAH KECAMATAN"],
   };
 
   const judulOptions = {
-    KEPENDUDUKAN: [
-      "JUMLAH PENDUDUK",
-      "KELOMPOK UMUR",
-      "LAJU PERTUMBUHAN",
-      "RASIO JENIS KELAMIN",
-    ],
-    KETENAGAKERJAAN: [
-      "ANGKATAN KERJA",
-      "TPAK (TINGKAT PARTISIPASI ANGKATAN KERJA)",
-      "TPT (TINGKAT PENGANGGURAN TERBUKA)",
-    ],
-    KEMISKINAN: [
-      "PENDUDUK MISKIN",
-      "GARIS KEMISKINAN",
-      "INDEKS KEDALAMAN KEMISKINAN (P1)",
-    ],
-    PENDIDIKAN: [
-      "ANGKA PARTISIPASI KASAR (APK)",
-      "ANGKA PARTISIPASI MURNI (APM)",
-      "ANGKA MELEKA HURUF (AMH)",
-    ],
-    PEMBANGUNAN_MANUSIA: [
-      "INDEKS PEMBANGUNAN MANUSIA (IPM)",
-      "ANGKA HARAPAN HIDUP (AHH)",  
-      "RATA-RATA LAMA SEKOLAH (RLS)",
-      "PENGELUARAN PENDIDIKAN PER KAPITA (PPK)",
-    ],
-    PRODUK_DOMESTIK_REGIONAL_BRUTO: [
-      "PDRB ADHB LAPANGAN USAHA",
-      "PDRB ADHK LAPANGAN USAHA",  
-      "DISTRIBUSI PDRB ADHB LAPANGAN USAHA",
-      "LAJU PETUMBUAHAN EKONOMI",
-    ],
-
-    KEUANGAN: [
-      "DATA KEUANGAN DAERAH",
-    ],
-
-    PERTANIAN_PERKEBUNAN: [
-      "TANAMAN PANGAN",
-      "HORTIKULTURA",
-      "PERKEBUNAN",
-    ],
-    HARGA_INFLASI_NILAI_TUKAR_PETANI: [
-      "INFLASI",
-      "INDEKS KEMAHALAN KONTRUKSI (IKK)",
-      "NILAI TUKAR PETANI (NTP)",
-    ],
-
-    PERTAMBANGAN: [
-      "PERTAMBANGAN",
-    ],
-
-    UPAH_MINIMUM_KABUPATEN: [
-      "UPAH MINIMUM KABUPATEN (UMK)",
-    ],
-
+    KEPENDUDUKAN: ["JUMLAH PENDUDUK", "KELOMPOK UMUR", "LAJU PERTUMBUHAN", "RASIO JENIS KELAMIN"],
+    KETENAGAKERJAAN: ["ANGKATAN KERJA", "TPAK (TINGKAT PARTISIPASI ANGKATAN KERJA)", "TPT (TINGKAT PENGANGGURAN TERBUKA)"],
+    KEMISKINAN: ["PENDUDUK MISKIN", "GARIS KEMISKINAN", "INDEKS KEDALAMAN KEMISKINAN (P1)"],
+    PENDIDIKAN: ["ANGKA PARTISIPASI KASAR (APK)", "ANGKA PARTISIPASI MURNI (APM)", "ANGKA MELEK HURUF (AMH)"],
+    PEMBANGUNAN_MANUSIA: ["INDEKS PEMBANGUNAN MANUSIA (IPM)", "ANGKA HARAPAN HIDUP (AHH)", "RATA-RATA LAMA SEKOLAH (RLS)", "PENGELUARAN PENDIDIKAN PER KAPITA (PPK)"],
+    PRODUK_DOMESTIK_REGIONAL_BRUTO: ["PDRB ADHB LAPANGAN USAHA", "PDRB ADHK LAPANGAN USAHA", "DISTRIBUSI PDRB ADHB LAPANGAN USAHA", "LAJU PERTUMBUHAN EKONOMI"],
+    KEUANGAN: ["DATA KEUANGAN DAERAH"],
+    PERTANIAN_PERKEBUNAN: ["TANAMAN PANGAN", "HORTIKULTURA", "PERKEBUNAN"],
+    HARGA_INFLASI_NILAI_TUKAR_PETANI: ["INFLASI", "INDEKS KEMAHALAN KONSTRUKSI (IKK)", "NILAI TUKAR PETANI (NTP)"],
+    PERTAMBANGAN: ["PERTAMBANGAN"],
+    UPAH_MINIMUM_KABUPATEN: ["UPAH MINIMUM KABUPATEN (UMK)"],
   };
 
   const handleInput = () => {
+    // Jika kelompok adalah INFOGRAFIS atau SEKILAS KOTA SUKABUMI langsung ke input-data
+    if (kelompok === "INFOGRAFIS" || kelompok === "SEKILAS KOTA SUKABUMI") {
+      navigate("/input-data", {
+        state: { kelompok, indikator: "-", judul: "-" },
+      });
+      return;
+    }
+
     if (kelompok && indikator && judul) {
       navigate("/input-data", {
         state: { kelompok, indikator, judul },
@@ -136,48 +94,44 @@ export default function KelolaData() {
           </select>
         </div>
 
-        <div className="form-group">
-          <label>Indikator</label>
-          <select
-            value={indikator}
-            onChange={(e) => {
-              setIndikator(e.target.value);
-              setJudul("");
-            }}
-            disabled={!kelompok}
-          >
-            <option value="">-- Pilih Indikator --</option>
-            {kelompok &&
-              indikatorOptions[kelompok]?.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-          </select>
-        </div>
+        {kelompok === "INDIKATOR MAKRO" && (
+          <>
+            <div className="form-group">
+              <label>Indikator</label>
+              <select
+                value={indikator}
+                onChange={(e) => {
+                  setIndikator(e.target.value);
+                  setJudul("");
+                }}
+              >
+                <option value="">-- Pilih Indikator --</option>
+                {indikatorOptions["INDIKATOR MAKRO"].map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <div className="form-group">
-          <label>Judul Konten</label>
-          <select
-            value={judul}
-            onChange={(e) => setJudul(e.target.value)}
-            disabled={!indikator}
-          >
-            <option value="">-- Pilih Judul Konten --</option>
-            {indikator &&
-              judulOptions[indikator]?.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-          </select>
-        </div>
+            <div className="form-group">
+              <label>Judul Konten</label>
+              <select
+                value={judul}
+                onChange={(e) => setJudul(e.target.value)}
+              >
+                <option value="">-- Pilih Judul Konten --</option>
+                {judulOptions[indikator]?.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </>
+        )}
 
-        <button
-          className="btn-input"
-          onClick={handleInput}
-          disabled={!kelompok || !indikator || !judul}
-        >
+        <button className="btn-input" onClick={handleInput}>
           Input Data
         </button>
       </div>

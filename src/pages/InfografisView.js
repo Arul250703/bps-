@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/InfografisView.css";
 
 export default function InfografisView() {
-  const infografisData = [
-    { id: 1, title: "Pendidikan di Sukabumi", image: "/images/infografis1.jpg" },
-    { id: 2, title: "Kesehatan Masyarakat", image: "/images/infografis2.jpg" },
-  ];
+  const [dataInfografis, setDataInfografis] = useState([]);
+
+  useEffect(() => {
+    const allData = JSON.parse(localStorage.getItem("dataTabel")) || [];
+    const filtered = allData.filter((item) => item.kelompok === "INFOGRAFIS");
+    setDataInfografis(filtered);
+  }, []);
 
   return (
-    <div className="infografis-view">
-      <h2>Infografis Kota Sukabumi</h2>
-      <div className="infografis-grid">
-        {infografisData.map((item) => (
-          <div key={item.id} className="infografis-card">
-            <img src={item.image} alt={item.title} />
-            <h3>{item.title}</h3>
-          </div>
-        ))}
-      </div>
+    <div className="infografis-container">
+      <h2 className="infografis-title">Data Infografis</h2>
+
+      {dataInfografis.length === 0 ? (
+        <p className="no-data">Belum ada data infografis yang disimpan.</p>
+      ) : (
+        <div className="infografis-grid">
+          {dataInfografis.map((item) => (
+            <div className="infografis-card" key={item.id}>
+              {item.gambar && <img src={item.gambar} alt="Infografis" className="infografis-img" />}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

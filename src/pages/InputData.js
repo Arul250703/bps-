@@ -27,6 +27,23 @@ export default function InputData() {
     if (file) reader.readAsDataURL(file);
   };
 
+  const getIndikatorId = (indikatorName) => {
+    const indikatorMap = {
+      KEPENDUDUKAN: 1,
+      KETENAGAKERJAAN: 2,
+      KEMISKINAN: 3,
+      PENDIDIKAN: 4,
+      PEMBANGUNAN_MANUSIA: 5,
+      PRODUK_DOMESTIK_REGIONAL_BRUTO: 6,
+      KEUANGAN: 7,
+      PERTANIAN_PERKEBUNAN: 8,
+      HARGA_INFLASI_NILAI_TUKAR_PETANI: 9,
+      PERTAMBANGAN: 10,
+      UPAH_MINIMUM_KABUPATEN: 11,
+    };
+    return indikatorMap[indikatorName] || null;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -36,42 +53,18 @@ export default function InputData() {
       id: Date.now(),
       kelompok,
       indikator,
-      judul, // Ini yang akan digunakan untuk filter di Tema
+      judul,
       gambar: form.gambar,
       judulNarasi: form.judulNarasi,
       isiNarasi: form.isiNarasi,
-      // Tambahkan field untuk memudahkan filtering
-      indikatorId: getIndikatorId(indikator), // Untuk relasi dengan halaman Tema
+      indikatorId: getIndikatorId(indikator),
     };
 
     existingData.push(newData);
     localStorage.setItem("dataTabel", JSON.stringify(existingData));
 
-<<<<<<< HEAD
     alert(`Data berhasil disimpan ke tema: ${judul}`);
-    navigate("/kelola-data"); // Kembali ke halaman kelola data
-  };
-
-  // Helper function untuk mapping indikator ke ID
-  const getIndikatorId = (indikatorName) => {
-    const indikatorMap = {
-      "KEPENDUDUKAN": 1,
-      "KETENAGAKERJAAN": 2,
-      "KEMISKINAN": 3,
-      "PENDIDIKAN": 4,
-      "PEMBANGUNAN_MANUSIA": 5,
-      "PRODUK_DOMESTIK_REGIONAL_BRUTO": 6,
-      "KEUANGAN": 7,
-      "PERTANIAN_PERKEBUNAN": 8,
-      "HARGA_INFLASI_NILAI_TUKAR_PETANI": 9,
-      "PERTAMBANGAN": 10,
-      "UPAH_MINIMUM_KABUPATEN": 11,
-    };
-    return indikatorMap[indikatorName] || null;
-=======
-    alert("Data berhasil disimpan!");
-    navigate("/kerangka/tabel"); // Arahkan ke halaman Tabel
->>>>>>> 29753cabf37dc562ee745df9bfeeb17ca13e5cf2
+    navigate("/kelola-data");
   };
 
   return (
@@ -95,33 +88,72 @@ export default function InputData() {
       </div>
 
       <form className="input-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Gambar Sesuai Judul</label>
-          <input type="file" accept="image/*" onChange={handleFile} />
-        </div>
+        {/* ==== INFOGRAFIS ==== */}
+        {kelompok === "INFOGRAFIS" && (
+          <div className="form-group">
+            <label>Upload Gambar Infografis</label>
+            <input type="file" accept="image/*" onChange={handleFile} required />
+          </div>
+        )}
 
-        <div className="form-group">
-          <label>Judul Narasi</label>
-          <input
-            type="text"
-            name="judulNarasi"
-            value={form.judulNarasi}
-            onChange={handleChange}
-            placeholder="Masukkan judul narasi"
-            required
-          />
-        </div>
+        {/* ==== SEKILAS KOTA SUKABUMI ==== */}
+        {kelompok === "SEKILAS KOTA SUKABUMI" && (
+          <>
+            <div className="form-group">
+              <label>Judul Narasi</label>
+              <input
+                type="text"
+                name="judulNarasi"
+                value={form.judulNarasi}
+                onChange={handleChange}
+                placeholder="Masukkan judul narasi"
+                required
+              />
+            </div>
 
-        <div className="form-group">
-          <label>Isi Narasi</label>
-          <textarea
-            name="isiNarasi"
-            value={form.isiNarasi}
-            onChange={handleChange}
-            placeholder="Masukkan isi narasi"
-            required
-          ></textarea>
-        </div>
+            <div className="form-group">
+              <label>Isi Narasi</label>
+              <textarea
+                name="isiNarasi"
+                value={form.isiNarasi}
+                onChange={handleChange}
+                placeholder="Masukkan isi narasi tentang Kota Sukabumi"
+                required
+              ></textarea>
+            </div>
+          </>
+        )}
+
+        {/* ==== DEFAULT FORM (JIKA KELOMPOK LAIN) ==== */}
+        {!["INFOGRAFIS", "SEKILAS KOTA SUKABUMI"].includes(kelompok) && (
+          <>
+            <div className="form-group">
+              <label>Gambar Sesuai Judul</label>
+              <input type="file" accept="image/*" onChange={handleFile} />
+            </div>
+            <div className="form-group">
+              <label>Judul Narasi</label>
+              <input
+                type="text"
+                name="judulNarasi"
+                value={form.judulNarasi}
+                onChange={handleChange}
+                placeholder="Masukkan judul narasi"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Isi Narasi</label>
+              <textarea
+                name="isiNarasi"
+                value={form.isiNarasi}
+                onChange={handleChange}
+                placeholder="Masukkan isi narasi"
+                required
+              ></textarea>
+            </div>
+          </>
+        )}
 
         <button type="submit" className="btn-simpan">
           Simpan

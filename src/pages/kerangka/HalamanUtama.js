@@ -1,23 +1,29 @@
-import React from 'react';
-import { FaPlusCircle, FaEdit, FaTrashAlt, FaExternalLinkAlt } from 'react-icons/fa';
-import '../../styles/HalamanUtama.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { FaPlusCircle, FaEdit, FaTrashAlt, FaExternalLinkAlt } from "react-icons/fa";
+import "../../styles/HalamanUtama.css";
 
 const data = [
-  { no: 1, kelompok: 'INFOGRAFIS', keterangan: '' },
-  { no: 2, kelompok: 'INDIKATOR MAKRO', keterangan: '' },
-  { no: 3, kelompok: 'SEKILAS KOTA SUKABUMI', keterangan: '' },
+  { no: 1, kelompok: "INFOGRAFIS", keterangan: "Berisi gambar dan data visual." },
+  { no: 2, kelompok: "INDIKATOR MAKRO", keterangan: "Menampilkan data makro ekonomi." },
+  { no: 3, kelompok: "SEKILAS KOTA SUKABUMI", keterangan: "Berisi narasi umum tentang kota." },
 ];
 
 export default function HalamanUtama() {
-  const handleKembali = () => {
-    // Implementasi untuk tombol kembali
-    // Contoh: window.history.back(); atau navigasi menggunakan useNavigate dari react-router-dom
-    console.log('Tombol Kembali ditekan');
+  const navigate = useNavigate();
+
+  const handleClick = (kelompok) => {
+    if (kelompok === "INFOGRAFIS") {
+      navigate("/infografis-view");
+    } else if (kelompok === "INDIKATOR MAKRO") {
+      navigate("/kerangka/data-utama");
+    } else if (kelompok === "SEKILAS KOTA SUKABUMI") {
+      navigate("/sekilas-sukabumi-view");
+    }
   };
 
   return (
     <div className="halaman-utama-container">
-      {/* Header Halaman */}
       <div className="halaman-utama-header">
         <h2 className="page-title">KERANGKA BERANDA UTAMA</h2>
         <div className="header-actions">
@@ -25,13 +31,12 @@ export default function HalamanUtama() {
             <FaExternalLinkAlt className="admin-icon" />
             <span>Admin</span>
           </div>
-          <button className="btn-kembali" onClick={handleKembali}>
+          <button className="btn-kembali" onClick={() => navigate(-1)}>
             Kembali
           </button>
         </div>
       </div>
 
-      {/* Konten Tabel */}
       <div className="table-wrapper">
         <table className="data-table">
           <thead>
@@ -49,16 +54,7 @@ export default function HalamanUtama() {
                 <td>{item.kelompok}</td>
                 <td>{item.keterangan}</td>
                 <td className="aksi-cell">
-                  <button className="btn-icon">
-                    <FaPlusCircle className="add-icon" />
-                  </button>
-                  <button className="btn-icon">
-                    <FaEdit className="edit-icon" />
-                  </button>
-                  <button className="btn-icon">
-                    <FaTrashAlt className="delete-icon" />
-                  </button>
-                  <button className="btn-icon">
+                  <button className="btn-icon" onClick={() => handleClick(item.kelompok)}>
                     <FaExternalLinkAlt className="external-link-icon" />
                   </button>
                 </td>

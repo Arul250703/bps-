@@ -19,9 +19,7 @@ export default function Layout() {
 
       {/* Konten utama halaman */}
       <main className={`main-content ${isSidebarOpen ? "shifted" : ""}`}>
-        <button className="hamburger-btn" onClick={toggleSidebar}>
-          <FaBars />
-        </button>
+
         
         {/* Di sini konten dari route Anda akan ditampilkan */}
         <div className="content-wrapper">

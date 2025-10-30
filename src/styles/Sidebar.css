@@ -13,9 +13,11 @@
   top: 0;
   z-index: 1000;
   transition: width 0.3s ease;
-  overflow-y: auto;
-}
 
+  /* ✅ perbaikan scroll */
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
 /* State Terbuka */
 .sidebar.open {
   width: 250px;
@@ -28,7 +30,7 @@
 
 /* ==== SCROLLBAR ==== */
 .sidebar::-webkit-scrollbar {
-  width: 6px;
+  display: none; /* Chrome, Edge, Safari */
 }
 
 .sidebar::-webkit-scrollbar-thumb {
@@ -79,7 +81,9 @@
   padding: 0 10px;
   margin: 15px 0;
   flex-grow: 1;
-  overflow-y: auto;
+
+  /* ✅ biar submenu tampil penuh tanpa scroll di dalamnya */
+  overflow: visible;
 }
 
 .menu li {
@@ -133,13 +137,18 @@
   background-color: rgba(0, 0, 0, 0.15);
 }
 
+.dropdown.open .submenu {
+  max-height: 400px;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
 /* ==== SUBMENU ==== */
 .submenu {
-  list-style: none;
-  padding: 5px 0 5px 25px;
-  margin: 0;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .submenu li {

@@ -73,7 +73,6 @@ export default function Sidebar({ isOpen }) {
               className="dropdown-btn"
               onClick={toggleKerangka}
             >
-              <FaFolderOpen className="icon" />
               <span>Kerangka</span>
               {openKerangka ? (
                 <FaChevronUp className="chevron" />

@@ -10,12 +10,9 @@ import KelolaPengguna from "./pages/KelolaPengguna";
 import CoverHalamanUtama from "./pages/CoverHalamanUtama";
 // Pastikan path import ini benar sesuai struktur folder Anda
 import Kerangka from "./pages/kerangka/Kerangka";
-<<<<<<< HEAD
-=======
 import KelolaData from "./pages/KelolaData";
 // import KelolaData from "./pages/KelolaData";
 // import Tentang from "./pages/Tentang";
->>>>>>> 29753cabf37dc562ee745df9bfeeb17ca13e5cf2
 import Tema from "./pages/kerangka/Tema";
 import HalamanUtama from "./pages/kerangka/HalamanUtama";
 import BerandaUtama from "./pages/kerangka/BerandaUtama";
@@ -54,49 +51,13 @@ function App() {
           <Route path="kerangka/tabel" element={<Tabel />} />
           <Route path="kerangka/halaman-utama" element={<HalamanUtama />} />
 
-<<<<<<< HEAD
-                  {/* Kerangka */}
-                  <Route path="kerangka" element={<Kerangka />} />
-                  <Route
-                    path="kerangka/beranda-utama"
-                    element={<BerandaUtama />}
-                  />
-                  <Route path="kerangka/data-utama" element={<DataUtama />} />
-                  <Route path="kerangka/tema/:id" element={<Tema />} />
-                  <Route path="kerangka/tabel" element={<Tabel />} />
-                  <Route
-                    path="kerangka/halaman-utama"
-                    element={<HalamanUtama />}
-                  />
-
-                  {/* Cover */}
-                  <Route
-                    path="cover-halaman-utama"
-                    element={<CoverHalamanUtama />}
-                  />
-
-                  {/* 🟣 Tambahan: Infografis & Sekilas Sukabumi */}
-                  <Route
-                    path="kerangka/infografis-view"
-                    element={<InfografisView />}
-                  />
-                  <Route
-                    path="kerangka/sekilas-sukabumi-view"
-                    element={<SekilasSukabumiView />}
-                  />
-                </Routes>
-              </main>
-            </div>
-          }
-        />
-=======
-          {/* Anda bisa menambahkan rute lain di sini yang butuh sidebar */}
-          {/* Contoh: <Route path="tentang" element={<Tentang />} /> */}
+          {/* 🟣 Tambahan: Infografis & Sekilas Sukabumi */}
+          <Route path="/infografis-view" element={<InfografisView />} />
+          <Route path="/sekilas-sukabumi-view" element={<SekilasSukabumiView />} />
         </Route>
 
         {/* Rute untuk halaman yang tidak ditemukan (opsional) */}
         <Route path="*" element={<h1>404: Halaman Tidak ADA</h1>} />
->>>>>>> 29753cabf37dc562ee745df9bfeeb17ca13e5cf2
       </Routes>
     </BrowserRouter>
   );
