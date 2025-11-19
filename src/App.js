@@ -48,7 +48,9 @@ function App() {
           <Route path="kerangka/beranda-utama" element={<BerandaUtama />} />
           <Route path="kerangka/data-utama" element={<DataUtama />} />
           <Route path="kerangka/tema/:id" element={<Tema />} />
+          <Route path="kerangka/tema" element={<Tema />} />
           <Route path="kerangka/tabel" element={<Tabel />} />
+          <Route path="kerangka/tabel/:id" element={<Tabel />} />
           <Route path="kerangka/halaman-utama" element={<HalamanUtama />} />
 
           {/* 🟣 Tambahan: Infografis & Sekilas Sukabumi */}

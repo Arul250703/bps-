@@ -1,117 +1,228 @@
+/* --- Global Container and Header Styles --- */
 .halaman-utama-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+    padding: 30px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
 }
 
 .halaman-utama-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .page-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #004d99; /* Warna biru */
+    color: #343a40;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
 .header-actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 .admin-profile {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 14px;
-  color: #333;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    color: #495057;
 }
 
 .admin-icon {
-  font-size: 18px;
+    margin-right: 5px;
+    color: #007bff;
+}
+
+/* --- Button Styles --- */
+.btn-kembali, .btn-tambah {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
 .btn-kembali {
-  background-color: #ff8c00; /* Warna oranye */
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
+    background-color: #6c757d;
+    color: white;
 }
 
 .btn-kembali:hover {
-  background-color: #e67e00;
+    background-color: #5a6268;
 }
 
+.btn-tambah {
+    background-color: #28a745;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-tambah:hover {
+    background-color: #218838;
+}
+
+.plus-icon {
+    font-size: 1.1rem;
+}
+
+/* --- Table Styles --- */
 .table-wrapper {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 }
 
 .data-table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.data-table th {
-  background-color: #008000; /* Warna hijau */
-  color: white;
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #008000;
+.data-table thead tr {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
 }
 
-.data-table td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: left;
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
 }
 
-.data-table tbody tr:nth-child(odd) {
-  background-color: #f9f9f9;
+.data-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 .data-table tbody tr:hover {
-  background-color: #f1f1f1;
+    background-color: #e9ecef;
 }
 
+/* --- Action Cell and Icons --- */
 .aksi-cell {
-  text-align: center;
-  white-space: nowrap;
+    width: 150px; 
+    text-align: center;
 }
 
 .btn-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin: 0 4px;
-  font-size: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 8px;
+    margin: 0 3px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.view-btn {
+    color: #007bff;
+}
+
+.edit-btn {
+    color: #ffc107;
+}
+
+.delete-btn {
+    color: #dc3545;
 }
 
 .btn-icon:hover {
-  opacity: 0.8;
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-.add-icon {
-  color: #007bff;
+/* --- Modal (Pop-up) Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.edit-icon {
-  color: #28a745;
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
 }
 
-.delete-icon {
-  color: #dc3545;
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #343a40;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
 }
 
-.external-link-icon {
-  color: #17a2b8;
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-save, .btn-cancel {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+
+.btn-save {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-save:hover {
+    background-color: #0056b3;
+}
+
+.btn-cancel {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background-color: #c82333;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }

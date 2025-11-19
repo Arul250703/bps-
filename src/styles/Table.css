@@ -1,124 +1,241 @@
-.table-container {
-  width: 100%;
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.tabel-container {
+    padding: 30px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
 }
 
-.table-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 15px;
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
 }
 
+.title-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    color: #343a40;
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.title-icon {
+    margin-right: 10px;
+    color: #007bff; /* Warna biru */
+}
+
+.subtitle {
+    color: #6c757d;
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.admin-box {
+    /* (CSS untuk Admin Box tetap sama) */
+}
+
+/* Tombol Kembali */
+.btn-kembali {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.btn-kembali:hover {
+    background-color: #5a6268;
+}
+
+/* Summary Box */
+.data-summary-box {
+    background-color: #e2f0ff; /* Warna latar belakang lembut */
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 5px solid #007bff;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.loading-message, .no-data-message {
+    text-align: center;
+    padding: 20px;
+    color: #dc3545;
+    background-color: #fff3f3;
+    border: 1px dashed #dc3545;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* Tabel Styling */
 .table-wrapper {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: "Poppins", sans-serif;
+.data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 15px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden; /* Penting untuk border-radius di dalam */
 }
 
-thead {
-  background-color: #007bff;
-  color: #fff;
+.data-table th {
+    background-color: #007bff; /* Header Biru */
+    color: white;
+    text-align: left;
+    padding: 12px 15px;
+    font-weight: 600;
 }
 
-thead th {
-  padding: 12px 15px;
-  text-align: left;
-  font-size: 14px;
-  font-weight: 500;
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
 }
 
-tbody tr {
-  border-bottom: 1px solid #ddd;
-  transition: background-color 0.2s;
+.data-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
-tbody tr:hover {
-  background-color: #f2f8ff;
+.data-table tbody tr:hover {
+    background-color: #f1f7fe; /* Hover effect */
 }
 
-tbody td {
-  padding: 12px 15px;
-  font-size: 14px;
-  color: #333;
+/* Gambar dalam Tabel */
+.table-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+/* Sel Narasi */
+.narasi-title-cell {
+    font-weight: 500;
+}
+
+.narasi-content-cell {
+    font-size: 0.9em;
+    color: #495057;
+    max-width: 300px;
+}
+
+/* Tombol Aksi */
+.btn-aksi {
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn-aksi.edit {
+    background-color: #ffc107;
+    color: #343a40;
+}
+
+.btn-aksi.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Tambahkan di Table.css */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .action-buttons {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.action-button {
-  background: none;
+.btn-refresh {
+  background: #007bff;
+  color: white;
   border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   cursor: pointer;
-  color: #555;
-  font-size: 16px;
-  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.action-button:hover {
-  color: #007bff;
-  transform: scale(1.1);
+.btn-refresh:hover {
+  background: #0056b3;
 }
 
-/* Tombol tambah data */
-.add-button {
-  display: inline-block;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: 0.2s;
-  margin-bottom: 15px;
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border: 1px solid #f5c6cb;
 }
 
-.add-button:hover {
-  background-color: #0056b3;
+.btn-retry {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  thead {
-    display: none;
-  }
+.btn-retry:hover {
+  background: #c82333;
+}
 
-  tbody, tr, td {
-    display: block;
-    width: 100%;
-  }
+.judul-narasi {
+  font-weight: 600;
+  color: #333;
+}
 
-  tr {
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-  }
+.isi-narasi-cell {
+  max-width: 300px;
+}
 
-  td {
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
-  }
+.kelompok, .tema {
+  text-align: center;
+}
 
-  td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 15px;
-    width: 45%;
-    text-align: left;
-    font-weight: 600;
-    color: #555;
-  }
+.tanggal {
+  text-align: center;
+  white-space: nowrap;
 }

@@ -6,6 +6,7 @@ import "../styles/InputData.css";
 export default function InputData() {
   const navigate = useNavigate();
   const location = useLocation();
+
   const { kelompok, indikator, judul } = location.state || {};
 
   const [form, setForm] = useState({
@@ -14,10 +15,12 @@ export default function InputData() {
     isiNarasi: "",
   });
 
+  // CHANGE TEXT INPUT
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // HANDLE FILE UPLOAD → convert ke Base64
   const handleFile = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -27,44 +30,81 @@ export default function InputData() {
     if (file) reader.readAsDataURL(file);
   };
 
-  const getIndikatorId = (indikatorName) => {
-    const indikatorMap = {
-      KEPENDUDUKAN: 1,
-      KETENAGAKERJAAN: 2,
-      KEMISKINAN: 3,
-      PENDIDIKAN: 4,
-      PEMBANGUNAN_MANUSIA: 5,
-      PRODUK_DOMESTIK_REGIONAL_BRUTO: 6,
-      KEUANGAN: 7,
-      PERTANIAN_PERKEBUNAN: 8,
-      HARGA_INFLASI_NILAI_TUKAR_PETANI: 9,
-      PERTAMBANGAN: 10,
-      UPAH_MINIMUM_KABUPATEN: 11,
-    };
-    return indikatorMap[indikatorName] || null;
-  };
+  // ========================================================
+  // FIX: DETEKSI INFOGRAFIS
+  // Tidak punya indikator & judul = hanya gambar
+  // ========================================================
+  const isGambarOnly =
+    kelompok !== "SEKILAS KOTA SUKABUMI" &&
+    ((!indikator || indikator === "-" || indikator === "") &&
+    (!judul || judul === "-" || judul === ""));
 
-  const handleSubmit = (e) => {
+  console.log("DEBUG STATE:", { kelompok, indikator, judul, isGambarOnly });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const existingData = JSON.parse(localStorage.getItem("dataTabel")) || [];
+    let endpoint = "";
+    let payload = {};
 
-    const newData = {
-      id: Date.now(),
-      kelompok,
-      indikator,
-      judul,
-      gambar: form.gambar,
-      judulNarasi: form.judulNarasi,
-      isiNarasi: form.isiNarasi,
-      indikatorId: getIndikatorId(indikator),
-    };
+    // =================================================
+    // 1. INFOGRAFIS (Hanya upload gambar)
+    // =================================================
+    if (isGambarOnly) {
+      endpoint = "http://localhost:5000/infografis";
+      payload = {
+        kelompok,
+        gambar: form.gambar,
+      };
+    }
 
-    existingData.push(newData);
-    localStorage.setItem("dataTabel", JSON.stringify(existingData));
+    // =================================================
+    // 2. SEKILAS KOTA SUKABUMI
+    // =================================================
+    else if (kelompok === "SEKILAS KOTA SUKABUMI") {
+      endpoint = "http://localhost:5000/api/sekilas";
+      payload = {
+        judulNarasi: form.judulNarasi,
+        isiNarasi: form.isiNarasi,
+        gambar: form.gambar,
+      };
+    }
 
-    alert(`Data berhasil disimpan ke tema: ${judul}`);
-    navigate("/kelola-data");
+    // =================================================
+    // 3. DATA MAKRO (data_input)
+    // =================================================
+    else {
+      endpoint = "http://localhost:5000/api/input-data";
+      payload = {
+        kelompok,
+        indikator,
+        judul,
+        gambar: form.gambar,
+        judulNarasi: form.judulNarasi,
+        isiNarasi: form.isiNarasi,
+      };
+    }
+
+    console.log("KIRIM KE:", endpoint);
+    console.log("PAYLOAD:", payload);
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        alert("✅ Data berhasil disimpan!");
+        navigate("/kelola-data");
+      } else {
+        alert("❌ Gagal mengirim ke server.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("⚠️ Error koneksi!");
+    }
   };
 
   return (
@@ -78,26 +118,39 @@ export default function InputData() {
         </div>
       </div>
 
+      {/* Breadcrumb */}
       <div className="breadcrumb">
         <button className="btn-breadcrumb">{kelompok}</button>
-        <button className="btn-breadcrumb">{indikator}</button>
-        <input className="breadcrumb-input" value={judul} readOnly />
+
+        {!isGambarOnly && kelompok !== "SEKILAS KOTA SUKABUMI" && (
+          <>
+            <button className="btn-breadcrumb">{indikator}</button>
+            <input className="breadcrumb-input" value={judul} readOnly />
+          </>
+        )}
+
         <button className="btn-kembali" onClick={() => navigate(-1)}>
           Kembali
         </button>
       </div>
 
+      {/* FORM */}
       <form className="input-form" onSubmit={handleSubmit}>
-        {/* ==== INFOGRAFIS ==== */}
-        {kelompok === "INFOGRAFIS" && (
+        
+        {/* ----------------------- */}
+        {/* INFOGRAFIS: Gambar saja */}
+        {/* ----------------------- */}
+        {isGambarOnly && (
           <div className="form-group">
-            <label>Upload Gambar Infografis</label>
+            <label>Upload Infografis</label>
             <input type="file" accept="image/*" onChange={handleFile} required />
           </div>
         )}
 
-        {/* ==== SEKILAS KOTA SUKABUMI ==== */}
-        {kelompok === "SEKILAS KOTA SUKABUMI" && (
+        {/* ----------------------- */}
+        {/* SEKILAS */}
+        {/* ----------------------- */}
+        {kelompok === "SEKILAS KOTA SUKABUMI" && !isGambarOnly && (
           <>
             <div className="form-group">
               <label>Judul Narasi</label>
@@ -106,7 +159,6 @@ export default function InputData() {
                 name="judulNarasi"
                 value={form.judulNarasi}
                 onChange={handleChange}
-                placeholder="Masukkan judul narasi"
                 required
               />
             </div>
@@ -117,20 +169,27 @@ export default function InputData() {
                 name="isiNarasi"
                 value={form.isiNarasi}
                 onChange={handleChange}
-                placeholder="Masukkan isi narasi tentang Kota Sukabumi"
                 required
               ></textarea>
+            </div>
+
+            <div className="form-group">
+              <label>Upload Gambar (Opsional)</label>
+              <input type="file" accept="image/*" onChange={handleFile} />
             </div>
           </>
         )}
 
-        {/* ==== DEFAULT FORM (JIKA KELOMPOK LAIN) ==== */}
-        {!["INFOGRAFIS", "SEKILAS KOTA SUKABUMI"].includes(kelompok) && (
+        {/* ----------------------- */}
+        {/* DATA MAKRO */}
+        {/* ----------------------- */}
+        {!isGambarOnly && kelompok !== "SEKILAS KOTA SUKABUMI" && (
           <>
             <div className="form-group">
-              <label>Gambar Sesuai Judul</label>
+              <label>Gambar</label>
               <input type="file" accept="image/*" onChange={handleFile} />
             </div>
+
             <div className="form-group">
               <label>Judul Narasi</label>
               <input
@@ -138,17 +197,16 @@ export default function InputData() {
                 name="judulNarasi"
                 value={form.judulNarasi}
                 onChange={handleChange}
-                placeholder="Masukkan judul narasi"
                 required
               />
             </div>
+
             <div className="form-group">
               <label>Isi Narasi</label>
               <textarea
                 name="isiNarasi"
                 value={form.isiNarasi}
                 onChange={handleChange}
-                placeholder="Masukkan isi narasi"
                 required
               ></textarea>
             </div>

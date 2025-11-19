@@ -1,65 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/KelolaData.css";
 import { FaUser, FaChevronDown } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// Data Indikator Makro tetap di-hardcode karena ini adalah sub-kategori spesifik
+const indikatorDataMakro = [
+  { id: "1", nama: "KEPENDUDUKAN" },
+  { id: "2", nama: "KETENAGAKERJAAN" },
+  { id: "3", nama: "KEMISKINAN" },
+  { id: "4", nama: "PENDIDIKAN" },
+  { id: "5", nama: "PEMBANGUNAN_MANUSIA" },
+  { id: "6", nama: "PRODUK_DOMESTIK_REGIONAL_BRUTO" },
+  { id: "7", nama: "KEUANGAN" },
+  { id: "8", nama: "PERTANIAN_PERKEBUNAN" },
+  { id: "9", "nama": "HARGA_INFLASI_NILAI_TUKAR_PETANI" },
+  { id: "10", nama: "PERTAMBANGAN" },
+  { id: "11", nama: "UPAH_MINIMUM_KABUPATEN" },
+];
 
 export default function KelolaData() {
   const [kelompok, setKelompok] = useState("");
+  const [kelompokList, setKelompokList] = useState([]); // 🎯 State baru untuk menampung data Kelompok dari API
   const [indikator, setIndikator] = useState("");
+  const [judulList, setJudulList] = useState([]);
   const [judul, setJudul] = useState("");
   const navigate = useNavigate();
 
-  const kelompokOptions = [
-    "INFOGRAFIS",
-    "INDIKATOR MAKRO",
-    "SEKILAS KOTA SUKABUMI",
-  ];
+  // Hapus const kelompokOptions = [...]
 
   const indikatorOptions = {
-    "INDIKATOR MAKRO": [
-      "KEPENDUDUKAN",
-      "KETENAGAKERJAAN",
-      "KEMISKINAN",
-      "PENDIDIKAN",
-      "PEMBANGUNAN_MANUSIA",
-      "PRODUK_DOMESTIK_REGIONAL_BRUTO",
-      "KEUANGAN",
-      "PERTANIAN_PERKEBUNAN",
-      "HARGA_INFLASI_NILAI_TUKAR_PETANI",
-      "PERTAMBANGAN",
-      "UPAH_MINIMUM_KABUPATEN",
-    ],
+    "INDIKATOR MAKRO": indikatorDataMakro, 
   };
 
-  const judulOptions = {
-    KEPENDUDUKAN: ["JUMLAH PENDUDUK", "KELOMPOK UMUR", "LAJU PERTUMBUHAN", "RASIO JENIS KELAMIN"],
-    KETENAGAKERJAAN: ["ANGKATAN KERJA", "TPAK (TINGKAT PARTISIPASI ANGKATAN KERJA)", "TPT (TINGKAT PENGANGGURAN TERBUKA)"],
-    KEMISKINAN: ["PENDUDUK MISKIN", "GARIS KEMISKINAN", "INDEKS KEDALAMAN KEMISKINAN (P1)"],
-    PENDIDIKAN: ["ANGKA PARTISIPASI KASAR (APK)", "ANGKA PARTISIPASI MURNI (APM)", "ANGKA MELEK HURUF (AMH)"],
-    PEMBANGUNAN_MANUSIA: ["INDEKS PEMBANGUNAN MANUSIA (IPM)", "ANGKA HARAPAN HIDUP (AHH)", "RATA-RATA LAMA SEKOLAH (RLS)", "PENGELUARAN PENDIDIKAN PER KAPITA (PPK)"],
-    PRODUK_DOMESTIK_REGIONAL_BRUTO: ["PDRB ADHB LAPANGAN USAHA", "PDRB ADHK LAPANGAN USAHA", "DISTRIBUSI PDRB ADHB LAPANGAN USAHA", "LAJU PERTUMBUHAN EKONOMI"],
-    KEUANGAN: ["DATA KEUANGAN DAERAH"],
-    PERTANIAN_PERKEBUNAN: ["TANAMAN PANGAN", "HORTIKULTURA", "PERKEBUNAN"],
-    HARGA_INFLASI_NILAI_TUKAR_PETANI: ["INFLASI", "INDEKS KEMAHALAN KONSTRUKSI (IKK)", "NILAI TUKAR PETANI (NTP)"],
-    PERTAMBANGAN: ["PERTAMBANGAN"],
-    UPAH_MINIMUM_KABUPATEN: ["UPAH MINIMUM KABUPATEN (UMK)"],
+  // 1. 🌐 FUNGSI FETCH DATA KELOMPOK DARI BACKEND
+  const fetchKelompokFromDB = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/kelompok");
+      
+      // Mapping untuk menyesuaikan nama field dari backend ke frontend
+      // Backend: nama_kelompok, Frontend: kelompok
+      const formattedData = res.data.map(item => ({
+        id: item.id,
+        nama: item.nama_kelompok, // Menggunakan nama_kelompok dari DB
+        keterangan: item.keterangan
+      }));
+      
+      setKelompokList(formattedData);
+    } catch (err) {
+      console.error("Gagal ambil data kelompok:", err);
+      setKelompokList([]);
+    }
   };
 
+  // 🔄 useEffect untuk memanggil data Kelompok saat komponen dimuat
+  useEffect(() => {
+    fetchKelompokFromDB();
+  }, []); // Hanya dijalankan sekali
+
+  // 2. 🔹 Ambil data tema sesuai Indikator ID (Logika lama tetap)
+  useEffect(() => {
+    const fetchJudulFromDB = async () => {
+      if (indikator) {
+        try {
+          // Memanggil endpoint tema dengan ID indikator
+          const res = await axios.get(`http://localhost:5000/tema/${indikator}`);
+          setJudulList(res.data);
+        } catch (err) {
+          console.error("Gagal ambil data tema:", err);
+          setJudulList([]);
+        }
+      } else {
+        setJudulList([]);
+      }
+    };
+    fetchJudulFromDB();
+  }, [indikator]);
+
+  // 🔹 Navigasi ke halaman input
   const handleInput = () => {
-    // Jika kelompok adalah INFOGRAFIS atau SEKILAS KOTA SUKABUMI langsung ke input-data
-    if (kelompok === "INFOGRAFIS" || kelompok === "SEKILAS KOTA SUKABUMI") {
+    // Cari kelompok yang saat ini dipilih
+    const selectedGroup = kelompokList.find(item => item.nama === kelompok);
+
+    if (!selectedGroup) {
+        alert("⚠️ Silakan pilih kelompok terlebih dahulu!");
+        return;
+    }
+
+    // Untuk kelompok non-indikator makro, Indikator dan Judul diisi '-'
+    if (selectedGroup.nama !== "INDIKATOR MAKRO") {
       navigate("/input-data", {
-        state: { kelompok, indikator: "-", judul: "-" },
+        state: { kelompok: selectedGroup.nama, indikator: "-", judul: "-" },
       });
       return;
     }
 
+    // Untuk Indikator Makro, pastikan semua field terisi
     if (kelompok && indikator && judul) {
       navigate("/input-data", {
         state: { kelompok, indikator, judul },
       });
     } else {
-      alert("Silakan pilih semua field terlebih dahulu!");
+      alert("⚠️ Silakan pilih semua field terlebih dahulu!");
     }
   };
 
@@ -75,6 +117,7 @@ export default function KelolaData() {
       </div>
 
       <div className="kelola-form">
+        {/* Kelompok */}
         <div className="form-group">
           <label>Kelompok</label>
           <select
@@ -83,17 +126,20 @@ export default function KelolaData() {
               setKelompok(e.target.value);
               setIndikator("");
               setJudul("");
+              setJudulList([]);
             }}
           >
             <option value="">-- Pilih Kelompok --</option>
-            {kelompokOptions.map((item) => (
-              <option key={item} value={item}>
-                {item}
+            {/* 3. MAPPING: Menggunakan data dari state kelompokList */}
+            {kelompokList.map((item) => (
+              <option key={item.id} value={item.nama}>
+                {item.nama}
               </option>
             ))}
           </select>
         </div>
 
+        {/* Indikator */}
         {kelompok === "INDIKATOR MAKRO" && (
           <>
             <div className="form-group">
@@ -101,14 +147,15 @@ export default function KelolaData() {
               <select
                 value={indikator}
                 onChange={(e) => {
-                  setIndikator(e.target.value);
+                  setIndikator(e.target.value); // Menyimpan ID ("1", "2", dst.)
                   setJudul("");
                 }}
               >
                 <option value="">-- Pilih Indikator --</option>
+                {/* Menggunakan data Indikator Makro yang di-hardcode */}
                 {indikatorOptions["INDIKATOR MAKRO"].map((item) => (
-                  <option key={item} value={item}>
-                    {item}
+                  <option key={item.id} value={item.id}> 
+                    {item.nama} 
                   </option>
                 ))}
               </select>
@@ -121,9 +168,9 @@ export default function KelolaData() {
                 onChange={(e) => setJudul(e.target.value)}
               >
                 <option value="">-- Pilih Judul Konten --</option>
-                {judulOptions[indikator]?.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
+                {judulList.map((item) => (
+                  <option key={item.id} value={item.judul}>
+                    {item.judul}
                   </option>
                 ))}
               </select>

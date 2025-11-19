@@ -7,15 +7,18 @@ export default function SekilasSukabumiView() {
   const [dataSekilas, setDataSekilas] = useState([]);
 
   useEffect(() => {
-    // Ambil semua data dari localStorage
-    const storedData = JSON.parse(localStorage.getItem("dataTabel")) || [];
+    const fetchSekilas = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/sekilas");
+        const data = await res.json();
 
-    // Filter hanya yang kelompoknya "SEKILAS KOTA SUKABUMI"
-    const filteredData = storedData.filter(
-      (item) => item.kelompok === "SEKILAS KOTA SUKABUMI"
-    );
+        setDataSekilas(data);
+      } catch (err) {
+        console.error("Error fetching sekilas:", err);
+      }
+    };
 
-    setDataSekilas(filteredData);
+    fetchSekilas();
   }, []);
 
   return (
@@ -37,10 +40,11 @@ export default function SekilasSukabumiView() {
             <div key={item.id} className="sekilas-card">
               <h3>{item.judulNarasi}</h3>
               <p>{item.isiNarasi}</p>
+
               {item.gambar && (
                 <img
                   src={item.gambar}
-                  alt={item.judulNarasi}
+                  alt="sekilas"
                   className="sekilas-image"
                 />
               )}
