@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react"; // Tambahkan useEffect
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPlusCircle, FaEdit, FaTrashAlt, FaExternalLinkAlt } from "react-icons/fa";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 import "../../styles/HalamanUtama.css";
 
-// --- Komponen Modal (Pop-up) untuk Tambah/Edit Kelompok ---
-// Komponen ini tidak berubah, karena fokusnya pada input Kelompok dan Keterangan
+// ============================
+//     MODAL WITH ICON INPUT
+// ============================
 const Modal = ({ isOpen, onClose, itemData, onSave }) => {
   const [kelompok, setKelompok] = useState(itemData ? itemData.kelompok : "");
   const [keterangan, setKeterangan] = useState(itemData ? itemData.keterangan : "");
-  
+  const [icon, setIcon] = useState(itemData ? itemData.icon : "");
+
   const isNew = !itemData;
 
   if (!isOpen) return null;
@@ -18,13 +20,12 @@ const Modal = ({ isOpen, onClose, itemData, onSave }) => {
     e.preventDefault();
 
     const dataToSave = {
-      // id hanya disertakan saat mode edit
-      ...(itemData && { id: itemData.id }), 
+      ...(itemData && { id: itemData.id }),
       kelompok: kelompok.toUpperCase(),
       keterangan: keterangan,
+      icon: icon, // 🔥 ICON dikirim ke backend
     };
-    
-    // Panggil onSave yang sekarang akan memanggil API
+
     onSave(dataToSave, isNew);
     onClose();
   };
@@ -33,33 +34,45 @@ const Modal = ({ isOpen, onClose, itemData, onSave }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h3>{isNew ? "Tambah Kelompok Data Baru" : "Edit Kelompok Data"}</h3>
+
         <form onSubmit={handleSubmit}>
           
           <div className="form-group">
             <label>Nama Kelompok</label>
             <input
-                type="text"
-                value={kelompok}
-                onChange={(e) => setKelompok(e.target.value)}
-                required
-                placeholder="Contoh: KELOMPOK BARU"
+              type="text"
+              value={kelompok}
+              onChange={(e) => setKelompok(e.target.value)}
+              required
             />
           </div>
-          
+
           <div className="form-group">
             <label>Keterangan</label>
             <input
-                type="text"
-                value={keterangan}
-                onChange={(e) => setKeterangan(e.target.value)}
-                required
-                placeholder="Deskripsi singkat kelompok ini"
+              type="text"
+              value={keterangan}
+              onChange={(e) => setKeterangan(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* 🔥 FIELD BARU UNTUK ICON */}
+          <div className="form-group">
+            <label>Nama Icon (React Icons)</label>
+            <input
+              type="text"
+              value={icon}
+              onChange={(e) => setIcon(e.target.value)}
+              placeholder="Contoh: FaBeer.jpg"
+              required
             />
           </div>
 
           <button type="submit" className="btn-save">
             {isNew ? "Simpan Kelompok Baru" : "Update Kelompok"}
           </button>
+
           <button type="button" className="btn-cancel" onClick={onClose}>
             Batal
           </button>
@@ -69,126 +82,97 @@ const Modal = ({ isOpen, onClose, itemData, onSave }) => {
   );
 };
 
-// --- Komponen Utama HalamanUtama ---
+// ============================
+//     HALAMAN UTAMA
+// ============================
 export default function HalamanUtama() {
-  const [listData, setListData] = useState([]); // Awalnya kosong, diisi dari API
+  const [listData, setListData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
 
   const navigate = useNavigate();
 
-  // 🎯 FUNGSI FETCH DATA DARI API
   const fetchDataKelompok = async () => {
     try {
-      // Menggunakan endpoint API yang baru: /kelompok
       const res = await axios.get("http://localhost:5000/kelompok");
-      
-      // Mapping untuk menyesuaikan nama field dari backend ke frontend
-      // Backend: nama_kelompok, Frontend: kelompok
+
       const formattedData = res.data.map(item => ({
         id: item.id,
         kelompok: item.nama_kelompok,
-        keterangan: item.keterangan
+        keterangan: item.keterangan,
       }));
 
       setListData(formattedData);
     } catch (err) {
-      console.error("Gagal mengambil data kelompok dari backend:", err);
-      // Tampilkan pesan error jika server tidak merespons
-      alert("⚠️ Gagal terhubung ke server atau database. Cek console."); 
+      alert("⚠️ Gagal mengambil data dari server!");
+      console.error(err);
     }
   };
 
-  // 🔄 Panggil saat komponen dimuat
   useEffect(() => {
     fetchDataKelompok();
   }, []);
 
-// ------------------------------------
-// 🎯 FUNGSI CRUD YANG MEMANGGIL API
-// ------------------------------------
-
   const handleSave = async (dataToSave, isNew) => {
     try {
-        if (isNew) {
-            // POST data baru ke backend
-            await axios.post("http://localhost:5000/kelompok", dataToSave);
-            alert(`Kelompok ${dataToSave.kelompok} berhasil ditambahkan!`);
-        } else {
-            // PUT untuk update data
-            await axios.put(`http://localhost:5000/kelompok/${dataToSave.id}`, dataToSave);
-            alert("Kelompok berhasil diperbarui!");
-        }
-        
-        // Refresh tabel setelah operasi CRUD berhasil
-        fetchDataKelompok(); 
+      if (isNew) {
+        await axios.post("http://localhost:5000/kelompok", dataToSave);
+        alert("Kelompok berhasil ditambahkan!");
+      } else {
+        await axios.put(`http://localhost:5000/kelompok/${dataToSave.id}`, dataToSave);
+        alert("Kelompok berhasil diperbarui!");
+      }
 
-    } catch (error) {
-        console.error("Gagal menyimpan data:", error);
-        alert(`⚠️ Gagal menyimpan data ke server: ${error.response?.data?.error || error.message}`);
+      fetchDataKelompok();
+    } catch (err) {
+      alert("⚠️ Gagal menyimpan!");
+      console.error(err);
     }
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus kelompok data ini?")) {
-        try {
-            // DELETE data ke backend
-            await axios.delete(`http://localhost:5000/kelompok/${id}`);
-            alert("Kelompok berhasil dihapus!");
-            
-            // Refresh tabel
-            fetchDataKelompok(); 
+    if (!window.confirm("Hapus data ini?")) return;
 
-        } catch (error) {
-            console.error("Gagal menghapus data:", error);
-            alert(`⚠️ Gagal menghapus data dari server: ${error.response?.data?.error || error.message}`);
-        }
+    try {
+      await axios.delete(`http://localhost:5000/kelompok/${id}`);
+      alert("Berhasil dihapus!");
+      fetchDataKelompok();
+    } catch (err) {
+      alert("⚠️ Gagal menghapus!");
+      console.error(err);
     }
   };
-// ------------------------------------
 
   const handleOpenModal = (item = null) => {
     setEditingItem(item);
     setIsModalOpen(true);
   };
-  
+
   const handleClick = (kelompok) => {
-    if (kelompok === "INDIKATOR MAKRO") {
-      // Kelompok 2: Indikator Makro (View berbeda)
-      navigate("/kerangka/data-utama");
-    } else if (kelompok === "SEKILAS KOTA SUKABUMI") {
-      // Kelompok 3: Sekilas Kota Sukabumi (View berbeda)
-      navigate("/sekilas-sukabumi-view");
-    } else {
-      // 🎯 Infografis dan SEMUA KELOMPOK BARU (View sama: Gambar)
-      // Arahkan ke Infografis View, kirim nama kelompoknya sebagai state
-      navigate("/infografis-view", { state: { kelompokNama: kelompok } });
-    }
+    navigate("/infografis-view", { state: { kelompokNama: kelompok } });
   };
 
   return (
     <div className="halaman-utama-container">
       <div className="halaman-utama-header">
         <h2 className="page-title">KERANGKA BERANDA UTAMA</h2>
+
         <div className="header-actions">
-           {/* Tombol Tambah Kelompok Baru */}
-          <button 
-            className="btn-tambah" 
-            onClick={() => handleOpenModal(null)}
-          >
-            <FaPlusCircle className="plus-icon" /> Tambah Kelompok
+          <button className="btn-tambah" onClick={() => handleOpenModal(null)}>
+            <FaPlusCircle /> Tambah Kelompok
           </button>
+
           <div className="admin-profile">
-            <FaExternalLinkAlt className="admin-icon" />
-            <span>Admin</span>
+            <FaExternalLinkAlt /> <span>Admin</span>
           </div>
+
           <button className="btn-kembali" onClick={() => navigate(-1)}>
             Kembali
           </button>
         </div>
       </div>
-      
-      {/* --- Tabel Data --- */}
+
+      {/* TABEL */}
       <div className="table-wrapper">
         <table className="data-table">
           <thead>
@@ -199,45 +183,37 @@ export default function HalamanUtama() {
               <th>AKSI</th>
             </tr>
           </thead>
+
           <tbody>
             {listData.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.kelompok}</td>
                 <td>{item.keterangan}</td>
+
+                {/* 🔥 MUNCULKAN ICON */}
+
+
                 <td className="aksi-cell">
-                   {/* Tombol VIEW */}
-                  <button 
-                    className="btn-icon view-btn" 
-                    onClick={() => handleClick(item.kelompok)}
-                    title="Lihat Data"
-                  >
-                    <FaExternalLinkAlt className="external-link-icon" />
+                  <button className="btn-icon view-btn" onClick={() => handleClick(item.kelompok)}>
+                    <FaExternalLinkAlt />
                   </button>
-                  {/* Tombol EDIT */}
-                  <button 
-                    className="btn-icon edit-btn" 
-                    onClick={() => handleOpenModal(item)}
-                    title="Edit Kelompok"
-                  >
-                    <FaEdit className="edit-icon" />
+
+                  <button className="btn-icon edit-btn" onClick={() => handleOpenModal(item)}>
+                    <FaEdit />
                   </button>
-                  {/* Tombol HAPUS */}
-                  <button 
-                    className="btn-icon delete-btn" 
-                    onClick={() => handleDelete(item.id)}
-                    title="Hapus Kelompok"
-                  >
-                    <FaTrashAlt className="trash-icon" />
+
+                  <button className="btn-icon delete-btn" onClick={() => handleDelete(item.id)}>
+                    <FaTrashAlt />
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
+
         </table>
       </div>
 
-      {/* --- Komponen Modal (Pop-up) --- */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
